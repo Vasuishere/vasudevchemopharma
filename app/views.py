@@ -24,7 +24,12 @@ def products(request):
 
 def product_detail(request, slug):
     try:
-        product = Product.objects.select_related('category').prefetch_related('specs').get(slug=slug)
+        product = (
+            Product.objects
+            .select_related('category')
+            .prefetch_related('specs', 'images', 'documents', 'faqs', 'pricing_tiers')
+            .get(slug=slug)
+        )
     except Product.DoesNotExist:
         raise Http404("Product not found")
 
