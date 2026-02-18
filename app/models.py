@@ -437,3 +437,126 @@ class ProductPricingTier(models.Model):
 
     def __str__(self):
         return f"{self.product.name} – {self.min_quantity}+"
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Company Details  (singleton – only one row expected)
+# ─────────────────────────────────────────────────────────────────────
+class CompanyDetails(models.Model):
+    """Single-row table that stores all company-wide information."""
+
+    # ── Branding ──────────────────────────────────────────────────────
+    company_name = models.CharField(max_length=200, default="Vasudev Chemo Pharma")
+    company_logo = models.ImageField(
+        upload_to="company/", blank=True, null=True,
+        help_text="Primary company logo (used in header, footer, etc.)",
+    )
+    company_name_image = models.ImageField(
+        upload_to="company/", blank=True, null=True,
+        help_text="Company name as an image / wordmark",
+    )
+    tagline = models.CharField(
+        max_length=300, blank=True, default="",
+        help_text="Short tagline / slogan",
+    )
+    about_short = models.TextField(
+        blank=True, default="",
+        help_text="Short description (shown in footer, etc.)",
+    )
+
+    # ── Contact — Phone Numbers ───────────────────────────────────────
+    phone_primary = models.CharField(max_length=30, blank=True, default="")
+    phone_secondary = models.CharField(
+        max_length=30, blank=True, default="",
+        help_text="Sales team / alternate number",
+    )
+    phone_export = models.CharField(
+        max_length=30, blank=True, default="",
+        help_text="Export enquiry phone number",
+    )
+
+    # ── Contact — Emails ──────────────────────────────────────────────
+    email_general = models.EmailField(blank=True, default="")
+    email_sales = models.EmailField(blank=True, default="")
+    email_export = models.EmailField(blank=True, default="")
+    email_support = models.EmailField(blank=True, default="")
+
+    # ── Address ───────────────────────────────────────────────────────
+    address_line1 = models.CharField(max_length=200, blank=True, default="")
+    address_line2 = models.CharField(max_length=200, blank=True, default="")
+    city = models.CharField(max_length=100, blank=True, default="")
+    state = models.CharField(max_length=100, blank=True, default="")
+    country = models.CharField(max_length=100, blank=True, default="India")
+    pincode = models.CharField(max_length=20, blank=True, default="")
+
+    # ── Legal / Statutory ─────────────────────────────────────────────
+    gst_number = models.CharField(
+        max_length=50, blank=True, default="",
+        verbose_name="GST Number",
+    )
+    pan_number = models.CharField(max_length=20, blank=True, default="")
+    cin_number = models.CharField(
+        max_length=50, blank=True, default="",
+        verbose_name="CIN Number",
+        help_text="Company Identification Number",
+    )
+    iec_code = models.CharField(
+        max_length=30, blank=True, default="",
+        verbose_name="IEC Code",
+        help_text="Import Export Code",
+    )
+
+    # ── Social Media ──────────────────────────────────────────────────
+    website_url = models.URLField(blank=True, default="")
+    linkedin_url = models.URLField(blank=True, default="")
+    facebook_url = models.URLField(blank=True, default="")
+    twitter_url = models.URLField(blank=True, default="")
+    instagram_url = models.URLField(blank=True, default="")
+    youtube_url = models.URLField(blank=True, default="")
+    whatsapp_number = models.CharField(max_length=30, blank=True, default="")
+
+    # ── Other ─────────────────────────────────────────────────────────
+    year_established = models.PositiveIntegerField(blank=True, null=True)
+    google_maps_embed = models.URLField(
+        max_length=1000, blank=True, default="",
+        help_text="Google Maps embed URL only (e.g. https://www.google.com/maps/embed?pb=…). Do NOT paste full iframe HTML.",
+    )
+
+    @property
+    def safe_google_maps_iframe(self):
+        """Return sanitised iframe HTML, or empty string if no URL set."""
+        from django.utils.html import format_html
+        url = (self.google_maps_embed or "").strip()
+        if not url:
+            return ""
+        # Only allow Google Maps origins
+        allowed_prefixes = (
+            "https://www.google.com/maps/",
+            "https://maps.google.com/",
+            "https://www.google.com/maps?",
+        )
+        if not url.startswith(allowed_prefixes):
+            return ""
+        return format_html(
+            '<iframe src="{}" width="100%" height="350" style="border:0;border-radius:12px;"'
+            ' allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+            url,
+        )
+
+    class Meta:
+        verbose_name = "Company Details"
+        verbose_name_plural = "Company Details"
+
+    def __str__(self):
+        return self.company_name
+
+    def save(self, *args, **kwargs):
+        """Ensure only one instance exists (singleton pattern)."""
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        """Return the singleton instance, creating it if needed."""
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj

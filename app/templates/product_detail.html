@@ -1,768 +1,403 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WKSS8JRT');</script>
-    <!-- End Google Tag Manager -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6W2QP965C"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-W6W2QP965C');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.name }} - Vasudev Chemo Pharma</title>
-    <meta name="description" content="{{ product.description }}">
-    <link rel="canonical" href="https://vasudevchemopharma.com/products/{{ product.slug }}/">
-    <!-- Open Graph -->
-    <meta property="og:title" content="{{ product.name }} – Vasudev Chemo Pharma">
-    <meta property="og:description" content="{{ product.description }}">
-    <meta property="og:url" content="https://vasudevchemopharma.com/products/{{ product.slug }}/">
-    <meta property="og:type" content="product">
-    <meta property="og:site_name" content="Vasudev Chemo Pharma">
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css"
-          integrity="sha384-AlYpMONXgEMN09rGaJPhMhCMgECCYTmBXBzrfyTEPsSOxFMwGKiMCnNGJO0TRrhk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+{% block title %}{{ product.name }} - Vasudev Chemo Pharma{% endblock %}
+{% block meta_description %}{{ product.description }}{% endblock %}
+{% block canonical %}https://vasudevchemopharma.com/products/{{ product.slug }}/{% endblock %}
+{% block og_title %}{{ product.name }} – Vasudev Chemo Pharma{% endblock %}
+{% block og_description %}{{ product.description }}{% endblock %}
+{% block og_url %}https://vasudevchemopharma.com/products/{{ product.slug }}/{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block og_extra %}{% endblock %}
 
-    <style>
-        /* ═══════════════════════ BASE ═══════════════════════ */
-        *{margin:0;padding:0;box-sizing:border-box}
-        html{scroll-behavior:smooth}
-        body{font-family:'Libre Baskerville',serif;line-height:1.6;color:#1a202c;background:#f7fafc}
-        .container{max-width:1200px;margin:0 auto;padding:0 20px}
-
-        /* ═══════════════════ BREADCRUMB BAR ═══════════════════ */
-        .breadcrumb-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:.85rem 0}
-        .breadcrumb-bar a{color:#4a5568;text-decoration:none;font-size:.88rem;transition:color .2s}
-        .breadcrumb-bar a:hover{color:#4fd1c7}
-        .breadcrumb-bar .sep{color:#cbd5e0;margin:0 .5rem;font-size:.8rem}
-        .breadcrumb-bar .current{color:#1a365d;font-weight:600;font-size:.88rem}
-
-        /* ═══════════════════ HERO SECTION ═══════════════════ */
-        .hero{padding:3rem 0 2.5rem;background:#fff;border-bottom:1px solid #edf2f7}
-        .hero-grid{display:grid;grid-template-columns:420px 1fr;gap:3rem;align-items:start}
-        .gallery-wrap{position:relative}
-        .gallery-main{width:100%;aspect-ratio:1;border-radius:16px;overflow:hidden;background:#f7fafc;
-                       display:flex;align-items:center;justify-content:center;border:1px solid #e2e8f0}
-        .gallery-main img{width:100%;height:100%;object-fit:contain;padding:1.5rem}
-        .gallery-icon-placeholder{width:120px;height:120px;background:linear-gradient(135deg,#667eea,#764ba2);
-                                   border-radius:50%;display:flex;align-items:center;justify-content:center;
-                                   font-size:2.4rem;color:#fff;font-weight:700}
-        .gallery-thumbs{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap}
-        .gallery-thumbs .thumb{width:72px;height:72px;border-radius:10px;overflow:hidden;cursor:pointer;
-                                border:2px solid transparent;transition:border .2s;background:#f7fafc}
-        .gallery-thumbs .thumb.active{border-color:#4fd1c7}
-        .gallery-thumbs .thumb img{width:100%;height:100%;object-fit:cover}
-
-        .hero-info .category-badge{display:inline-block;background:linear-gradient(135deg,#4fd1c7,#38b2ac);
-                                    color:#fff;padding:.3rem 1rem;border-radius:20px;font-size:.75rem;
-                                    font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.8rem}
-        .hero-info h1{font-size:2.2rem;font-weight:700;color:#1a365d;margin-bottom:.4rem;line-height:1.3}
-        .hero-info .brand-line{color:#718096;font-size:.95rem;margin-bottom:1rem}
-        .hero-info .brand-line strong{color:#2d3748}
-        .hero-info .short-desc{color:#4a5568;font-size:1rem;line-height:1.75;margin-bottom:1.5rem}
-
-        /* Key facts strip */
-        .key-facts{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.2rem}
-        .key-fact{display:flex;align-items:center;gap:.45rem;background:#edf2f7;border-radius:8px;
-                  padding:.45rem .9rem;font-size:.82rem;color:#2d3748}
-        .key-fact i{color:#4fd1c7;font-size:.95rem}
-        .key-fact strong{font-weight:600}
-
-        /* Grade badges */
-        .grade-badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
-        .grade-badge{padding:.35rem .85rem;border-radius:20px;font-size:.78rem;font-weight:600;
-                     letter-spacing:.3px;color:#fff}
-        .grade-badge.technical{background:#6366f1}
-        .grade-badge.industrial{background:#f59e0b}
-        .grade-badge.analytical{background:#10b981}
-        .grade-badge.pharma{background:#ef4444}
-
-        /* CTA row */
-        .cta-row{display:flex;flex-wrap:wrap;gap:.8rem}
-        .cta-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.6rem;border-radius:10px;
-                 font-family:'Libre Baskerville',serif;font-weight:600;font-size:.92rem;text-decoration:none;
-                 border:none;cursor:pointer;transition:all .3s}
-        .cta-primary{background:linear-gradient(135deg,#4fd1c7,#38b2ac);color:#fff}
-        .cta-primary:hover{background:linear-gradient(135deg,#38b2ac,#2c7a7b);transform:translateY(-2px);color:#fff}
-        .cta-outline{background:transparent;border:2px solid #4fd1c7;color:#4fd1c7}
-        .cta-outline:hover{background:#4fd1c7;color:#fff}
-
-        /* ═══════════════════ TAB SECTION ═══════════════════ */
-        .tab-section{padding:2.5rem 0 4rem}
-        .tab-layout{display:grid;grid-template-columns:1fr 320px;gap:2.5rem;align-items:start}
-
-        /* Horizontal tab nav */
-        .htab-nav{background:#fff;border-radius:14px;box-shadow:0 4px 15px rgba(0,0,0,.06);
-                  display:flex;flex-wrap:nowrap;overflow-x:auto;margin-bottom:1.5rem;padding:.3rem}
-        .htab-nav .nav-link{display:flex;align-items:center;gap:.5rem;padding:.8rem 1.2rem;
-                            font-size:.85rem;font-weight:500;color:#4a5568;border:none;background:transparent;
-                            border-radius:10px;transition:all .2s;white-space:nowrap;
-                            cursor:pointer;font-family:'Libre Baskerville',serif}
-        .htab-nav .nav-link:hover{background:#f7fafc;color:#1a365d}
-        .htab-nav .nav-link.active{background:linear-gradient(135deg,#4fd1c7,#38b2ac);color:#fff;font-weight:700}
-        .htab-nav .nav-link i{font-size:1rem}
-
-        /* Tab content area */
-        .tab-content-area .tab-pane{display:none}
-        .tab-content-area .tab-pane.active{display:block}
-
-        /* Content cards */
-        .content-card{background:#fff;border-radius:14px;box-shadow:0 4px 15px rgba(0,0,0,.06);
-                      padding:2rem;margin-bottom:1.5rem}
-        .content-card h3{font-size:1.25rem;font-weight:700;color:#1a365d;margin-bottom:1.2rem;
-                         display:flex;align-items:center;gap:.6rem}
-        .content-card h3 i{color:#4fd1c7;font-size:1.1rem}
-
-        .section-divider{border:none;border-top:1px solid #edf2f7;margin:1.5rem 0}
-
-        /* Data table inside cards */
-        .data-table{width:100%;border-collapse:collapse}
-        .data-table tr:not(:last-child){border-bottom:1px solid #f1f5f9}
-        .data-table td{padding:.75rem .5rem;vertical-align:top}
-        .data-table .dt-label{font-weight:600;color:#2d3748;white-space:nowrap;width:42%;font-size:.9rem}
-        .data-table .dt-value{color:#4a5568;font-size:.9rem}
-
-        /* Full-width description text */
-        .long-text{color:#4a5568;line-height:1.85;font-size:.95rem;white-space:pre-line}
-
-        /* Tag list */
-        .tag-list{display:flex;flex-wrap:wrap;gap:.45rem}
-        .tag-item{background:#edf2f7;color:#2d3748;padding:.3rem .75rem;border-radius:6px;font-size:.82rem}
-
-        /* ════════════════ SAFETY SECTION ════════════════ */
-        .signal-danger{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;padding:.6rem 1.2rem;
-                       border-radius:10px;font-weight:700;font-size:1rem;display:inline-flex;align-items:center;gap:.5rem}
-        .signal-warning{background:#fef3c7;color:#92400e;border:1px solid #fcd34d;padding:.6rem 1.2rem;
-                        border-radius:10px;font-weight:700;font-size:1rem;display:inline-flex;align-items:center;gap:.5rem}
-
-        .hazard-pictograms{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
-        .pictogram-badge{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:.5rem .9rem;
-                         font-size:.82rem;font-weight:600;color:#991b1b;display:flex;align-items:center;gap:.4rem}
-
-        .h-code{background:#fee2e2;color:#991b1b;padding:.22rem .6rem;border-radius:4px;
-                font-size:.8rem;font-weight:500;display:inline-block;margin:.2rem}
-        .p-code{background:#dbeafe;color:#1e40af;padding:.22rem .6rem;border-radius:4px;
-                font-size:.8rem;font-weight:500;display:inline-block;margin:.2rem}
-
-        /* ════════════════ DOCUMENTS ════════════════ */
-        .doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
-        .doc-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1.3rem;
-                  display:flex;align-items:center;gap:1rem;transition:all .3s;text-decoration:none;color:inherit}
-        .doc-card:hover{border-color:#4fd1c7;box-shadow:0 4px 12px rgba(79,209,199,.15);transform:translateY(-2px);color:inherit}
-        .doc-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-                  font-size:1.3rem;color:#fff;flex-shrink:0}
-        .doc-icon.coa{background:#6366f1}
-        .doc-icon.tds{background:#3b82f6}
-        .doc-icon.sds,.doc-icon.msds{background:#ef4444}
-        .doc-icon.iso,.doc-icon.gmp{background:#10b981}
-        .doc-icon.halal,.doc-icon.kosher{background:#f59e0b}
-        .doc-icon.other{background:#64748b}
-        .doc-info .doc-title{font-weight:600;font-size:.9rem;color:#1a365d}
-        .doc-info .doc-type{font-size:.78rem;color:#718096}
-
-        /* ════════════════ FAQ ACCORDION ════════════════ */
-        .faq-item{border:1px solid #e2e8f0;border-radius:12px;margin-bottom:.8rem;overflow:hidden;
-                  transition:border-color .2s}
-        .faq-item.open{border-color:#4fd1c7}
-        .faq-question{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.4rem;
-                      cursor:pointer;background:#fff;font-weight:600;font-size:.92rem;color:#1a365d;
-                      transition:background .2s;border:none;width:100%;text-align:left;
-                      font-family:inherit;line-height:inherit}
-        .faq-question:hover{background:#f7fafc}
-        .faq-question i{transition:transform .3s;color:#4fd1c7;font-size:1.1rem}
-        .faq-item.open .faq-question i{transform:rotate(180deg)}
-        .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease;background:#f8fafc}
-        .faq-item.open .faq-answer{max-height:600px}
-        .faq-answer-inner{padding:1rem 1.4rem 1.3rem;color:#4a5568;font-size:.9rem;line-height:1.75}
-
-        /* ════════════════ PRICING TABLE ════════════════ */
-        .pricing-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:10px;overflow:hidden;
-                       border:1px solid #e2e8f0}
-        .pricing-table th{background:#1a365d;color:#fff;padding:.85rem 1.2rem;font-size:.85rem;
-                          font-weight:600;text-align:left}
-        .pricing-table td{padding:.75rem 1.2rem;font-size:.9rem;border-bottom:1px solid #f1f5f9}
-        .pricing-table tr:last-child td{border-bottom:none}
-        .pricing-table tr:hover td{background:#f0fffe}
-
-        /* ════════════════ SIDEBAR CARD ════════════════ */
-        .sidebar-sticky{position:sticky;top:90px}
-        .sidebar-card{background:#fff;border-radius:14px;box-shadow:0 4px 15px rgba(0,0,0,.06);
-                      padding:1.8rem;margin-bottom:1.2rem}
-        .sidebar-card h4{font-size:1.05rem;font-weight:700;color:#1a365d;margin-bottom:1rem}
-        .sidebar-card .info-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.85rem;
-                                font-size:.88rem;color:#4a5568}
-        .sidebar-card .info-row i{color:#4fd1c7;font-size:1.1rem;margin-top:2px;flex-shrink:0}
-
-        /* ════════════════ RELATED PRODUCTS ════════════════ */
-        .related-section{padding:3.5rem 0;background:#edf2f7}
-        .related-section .section-heading{text-align:center;font-size:1.8rem;font-weight:700;color:#1a365d;
-                                          margin-bottom:.6rem}
-        .related-section .section-subheading{text-align:center;color:#718096;font-size:.95rem;margin-bottom:2.5rem}
-        .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
-        .related-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.06);
-                      transition:all .3s;text-decoration:none;color:inherit;display:block;
-                      border-top:3px solid transparent}
-        .related-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.1);
-                            border-top-color:#4fd1c7;color:inherit}
-        .related-card-body{padding:1.6rem}
-        .related-card .r-icon{width:55px;height:55px;background:linear-gradient(135deg,#667eea,#764ba2);
-                               border-radius:50%;display:flex;align-items:center;justify-content:center;
-                               font-size:1.1rem;color:#fff;font-weight:700;margin-bottom:.8rem}
-        .related-card .r-cat{font-size:.72rem;color:#4fd1c7;text-transform:uppercase;font-weight:600;
-                              letter-spacing:.5px;margin-bottom:.4rem}
-        .related-card h4{color:#1a365d;font-size:1rem;font-weight:700;margin-bottom:.4rem}
-        .related-card p{color:#718096;font-size:.85rem;line-height:1.55}
-
-        /* ════════════════ MOBILE RESPONSIVE ════════════════ */
-        @media(max-width:1024px){
-            .hero-grid{grid-template-columns:1fr;gap:2rem}
-            .gallery-main{max-width:480px;margin:0 auto}
-            .gallery-thumbs{justify-content:center}
-            .tab-layout{grid-template-columns:1fr}
-            .sidebar-sticky{position:static}
-        }
-        @media(max-width:768px){
-            .hero{padding:2rem 0 1.5rem}
-            .hero-info h1{font-size:1.6rem}
-            .key-facts{gap:.4rem}
-            .cta-row{flex-direction:column}
-            .cta-btn{width:100%;justify-content:center}
-            .tab-section{padding:1.5rem 0 3rem}
-            .content-card{padding:1.4rem}
-            .doc-grid{grid-template-columns:1fr}
-            .related-grid{grid-template-columns:1fr}
-            .data-table .dt-label{white-space:normal;width:40%}
-        }
-        @media(max-width:480px){
-            .hero-info h1{font-size:1.35rem}
-            .gallery-main{aspect-ratio:auto;min-height:250px}
-            .htab-nav .nav-link{padding:.65rem .8rem;font-size:.78rem}
-        }
-
-        /* Fade-in — only with JS */
-        html.js .fade-in{opacity:0;transform:translateY(25px);transition:all .6s ease}
-        html.js .fade-in.visible{opacity:1;transform:translateY(0)}
-    </style>
-</head>
-
-<body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WKSS8JRT"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <header>
-        {% include 'infotab.html' %}
-        {% include 'navbar.html' %}
-    </header>
-
-    <!-- ═══════════════════ BREADCRUMB ═══════════════════ -->
-    <div class="breadcrumb-bar">
-        <div class="container">
-            <a href="{% url 'index' %}">Home</a>
-            <span class="sep"><i class="bi bi-chevron-right"></i></span>
-            <a href="{% url 'products' %}">Products</a>
-            <span class="sep"><i class="bi bi-chevron-right"></i></span>
-            <span class="current">{{ product.name }}</span>
-        </div>
+{% block content %}
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+    <div class="container">
+        <a href="{% url 'index' %}">Home</a>
+        <span class="sep"><i class="bi bi-chevron-right"></i></span>
+        <a href="{% url 'products' %}">Products</a>
+        <span class="sep"><i class="bi bi-chevron-right"></i></span>
+        <span class="current">{{ product.name }}</span>
     </div>
+</div>
 
-    <!-- ═══════════════════ HERO SECTION ═══════════════════ -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-grid">
-                <!-- Image Gallery -->
-                <div class="gallery-wrap">
-                    <div class="gallery-main" id="mainGallery">
-                        {% if product.primary_image %}
-                            <img src="{{ product.primary_image.image.url }}"
-                                 alt="{{ product.primary_image.alt_text|default:product.name }}" id="mainImg">
-                        {% elif product.structure_image %}
-                            <img src="{{ product.structure_image.url }}" alt="{{ product.name }} structure" id="mainImg">
-                        {% else %}
-                            <div class="gallery-icon-placeholder">{{ product.icon|default:"?" }}</div>
-                        {% endif %}
+<!-- Hero Section -->
+<section class="pd-hero">
+    <div class="container">
+        <div class="hero-grid">
+            <!-- Image Gallery -->
+            <div class="gallery-wrap">
+                <div class="gallery-main" id="mainGallery">
+                    {% if product.primary_image %}
+                        <img src="{{ product.primary_image.image.url }}"
+                             alt="{{ product.primary_image.alt_text|default:product.name }}"
+                             id="mainImg" class="img-fluid">
+                    {% elif product.structure_image %}
+                        <img src="{{ product.structure_image.url }}"
+                             alt="{{ product.name }} structure"
+                             id="mainImg" class="img-fluid">
+                    {% else %}
+                        <div class="gallery-icon-placeholder">{{ product.icon|default:"?" }}</div>
+                    {% endif %}
+                </div>
+                {% if product.images.count > 1 %}
+                <div class="gallery-thumbs">
+                    {% for img in product.images.all %}
+                    <div class="thumb {% if forloop.first %}active{% endif %}"
+                         onclick="switchImage(this, '{{ img.image.url|escapejs }}', '{{ img.alt_text|default:product.name|escapejs }}')">
+                        <img src="{{ img.image.url }}" alt="{{ img.alt_text|default:'Thumbnail' }}" loading="lazy" width="72" height="72">
                     </div>
-                    {% if product.images.count > 1 %}
-                    <div class="gallery-thumbs">
-                        {% for img in product.images.all %}
-                        <div class="thumb {% if forloop.first %}active{% endif %}"
-                             onclick="switchImage(this, '{{ img.image.url|escapejs }}', '{{ img.alt_text|default:product.name|escapejs }}')">
-                            <img src="{{ img.image.url }}" alt="{{ img.alt_text|default:'Thumbnail' }}">
-                        </div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Product Info -->
+            <div class="hero-info">
+                <div class="category-badge">{{ product.category.label }}</div>
+                <h1>{{ product.name }}</h1>
+
+                {% if product.brand_name or product.manufacturer %}
+                <p class="brand-line">
+                    {% if product.brand_name %}<strong>{{ product.brand_name }}</strong>{% endif %}
+                    {% if product.brand_name and product.manufacturer %} &mdash; {% endif %}
+                    {% if product.manufacturer %}by {{ product.manufacturer }}{% endif %}
+                </p>
+                {% endif %}
+
+                <p class="short-desc">{{ product.description }}</p>
+
+                <!-- Key Facts -->
+                <div class="key-facts">
+                    {% if product.cas_number %}
+                    <div class="key-fact"><i class="bi bi-hash"></i><strong>CAS:</strong> {{ product.cas_number }}</div>
+                    {% endif %}
+                    {% if product.sku %}
+                    <div class="key-fact"><i class="bi bi-upc-scan"></i><strong>SKU:</strong> {{ product.sku }}</div>
+                    {% endif %}
+                    {% if product.hs_code %}
+                    <div class="key-fact"><i class="bi bi-box-seam"></i><strong>HS:</strong> {{ product.hs_code }}</div>
+                    {% endif %}
+                    {% if product.molecular_formula %}
+                    <div class="key-fact"><i class="bi bi-diagram-3"></i><strong>Formula:</strong> {{ product.molecular_formula }}</div>
+                    {% endif %}
+                    {% if product.country_of_origin %}
+                    <div class="key-fact"><i class="bi bi-globe"></i>{{ product.country_of_origin }}</div>
+                    {% endif %}
+                    {% if product.purity_grade %}
+                    <div class="key-fact"><i class="bi bi-award"></i>{{ product.purity_grade }}</div>
                     {% endif %}
                 </div>
 
-                <!-- Product Info -->
-                <div class="hero-info">
-                    <div class="category-badge">{{ product.category.label }}</div>
-                    <h1>{{ product.name }}</h1>
+                <!-- Grade Badges -->
+                {% if product.available_grades %}
+                <div class="grade-badges">
+                    {% if product.is_technical_grade %}<span class="grade-badge technical">Technical Grade</span>{% endif %}
+                    {% if product.is_industrial_grade %}<span class="grade-badge industrial">Industrial Grade</span>{% endif %}
+                    {% if product.is_analytical_grade %}<span class="grade-badge analytical">Analytical Grade</span>{% endif %}
+                    {% if product.is_pharma_grade %}<span class="grade-badge pharma">Pharma Grade</span>{% endif %}
+                </div>
+                {% endif %}
 
-                    {% if product.brand_name or product.manufacturer %}
-                    <p class="brand-line">
-                        {% if product.brand_name %}<strong>{{ product.brand_name }}</strong>{% endif %}
-                        {% if product.brand_name and product.manufacturer %} &mdash; {% endif %}
-                        {% if product.manufacturer %}by {{ product.manufacturer }}{% endif %}
-                    </p>
+                <!-- CTAs -->
+                <div class="cta-row">
+                    <a href="/#contact" class="cta-btn cta-primary">
+                        <i class="bi bi-envelope"></i> Request a Quote
+                    </a>
+                    {% if product.sds_file %}
+                    <a href="{{ product.sds_file.url }}" class="cta-btn cta-outline" target="_blank" rel="noopener">
+                        <i class="bi bi-download"></i> Download SDS
+                    </a>
                     {% endif %}
-
-                    <p class="short-desc">{{ product.description }}</p>
-
-                    <!-- Key Facts -->
-                    <div class="key-facts">
-                        {% if product.cas_number %}
-                        <div class="key-fact"><i class="bi bi-hash"></i><strong>CAS:</strong> {{ product.cas_number }}</div>
-                        {% endif %}
-                        {% if product.sku %}
-                        <div class="key-fact"><i class="bi bi-upc-scan"></i><strong>SKU:</strong> {{ product.sku }}</div>
-                        {% endif %}
-                        {% if product.hs_code %}
-                        <div class="key-fact"><i class="bi bi-box-seam"></i><strong>HS:</strong> {{ product.hs_code }}</div>
-                        {% endif %}
-                        {% if product.molecular_formula %}
-                        <div class="key-fact"><i class="bi bi-diagram-3"></i><strong>Formula:</strong> {{ product.molecular_formula }}</div>
-                        {% endif %}
-                        {% if product.country_of_origin %}
-                        <div class="key-fact"><i class="bi bi-globe"></i>{{ product.country_of_origin }}</div>
-                        {% endif %}
-                        {% if product.purity_grade %}
-                        <div class="key-fact"><i class="bi bi-award"></i>{{ product.purity_grade }}</div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Grade Badges -->
-                    {% if product.available_grades %}
-                    <div class="grade-badges">
-                        {% if product.is_technical_grade %}<span class="grade-badge technical">Technical Grade</span>{% endif %}
-                        {% if product.is_industrial_grade %}<span class="grade-badge industrial">Industrial Grade</span>{% endif %}
-                        {% if product.is_analytical_grade %}<span class="grade-badge analytical">Analytical Grade</span>{% endif %}
-                        {% if product.is_pharma_grade %}<span class="grade-badge pharma">Pharma Grade</span>{% endif %}
-                    </div>
-                    {% endif %}
-
-                    <!-- CTAs -->
-                    <div class="cta-row">
-                        <a href="/#contact" class="cta-btn cta-primary">
-                            <i class="bi bi-envelope"></i> Request a Quote
-                        </a>
-                        {% if product.sds_file %}
-                        <a href="{{ product.sds_file.url }}" class="cta-btn cta-outline" target="_blank" rel="noopener">
-                            <i class="bi bi-download"></i> Download SDS
-                        </a>
-                        {% endif %}
-                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ═══════════════════ TABS + SIDEBAR ═══════════════════ -->
-    <section class="tab-section">
-        <div class="container">
-            <div class="tab-layout">
-                <!-- Main Content (tabs) -->
-                <div>
-                    <!-- Tab Navigation -->
-                    <div class="htab-nav" role="tablist">
-                        <button class="nav-link active" data-tab="overview" role="tab" id="tab-btn-overview" aria-selected="true" aria-controls="tab-overview">
-                            <i class="bi bi-info-circle"></i> Overview
-                        </button>
+<!-- Tabs + Sidebar -->
+<section class="tab-section">
+    <div class="container">
+        <div class="tab-layout">
+            <!-- Main Content (tabs) -->
+            <div>
+                <!-- Tab Navigation -->
+                <div class="htab-nav" role="tablist">
+                    <button class="nav-link active" data-tab="overview" role="tab" id="tab-btn-overview" aria-selected="true" aria-controls="tab-overview">
+                        <i class="bi bi-info-circle"></i> Overview
+                    </button>
+                    {% if product.has_chemical_identification or product.has_physical_properties or product.specs.all %}
+                    <button class="nav-link" data-tab="specifications" role="tab" id="tab-btn-specifications" aria-selected="false" aria-controls="tab-specifications">
+                        <i class="bi bi-clipboard-data"></i> Specifications
+                    </button>
+                    {% endif %}
+                    {% if product.has_safety_info %}
+                    <button class="nav-link" data-tab="safety" role="tab" id="tab-btn-safety" aria-selected="false" aria-controls="tab-safety">
+                        <i class="bi bi-shield-exclamation"></i> Safety
+                    </button>
+                    {% endif %}
+                    {% if product.has_packaging_info %}
+                    <button class="nav-link" data-tab="packaging" role="tab" id="tab-btn-packaging" aria-selected="false" aria-controls="tab-packaging">
+                        <i class="bi bi-box-seam"></i> Packaging
+                    </button>
+                    {% endif %}
+                    {% if product.documents.all %}
+                    <button class="nav-link" data-tab="documents" role="tab" id="tab-btn-documents" aria-selected="false" aria-controls="tab-documents">
+                        <i class="bi bi-file-earmark-text"></i> Documents
+                    </button>
+                    {% endif %}
+                    {% if product.pricing_tiers.all %}
+                    <button class="nav-link" data-tab="pricing" role="tab" id="tab-btn-pricing" aria-selected="false" aria-controls="tab-pricing">
+                        <i class="bi bi-currency-dollar"></i> Pricing
+                    </button>
+                    {% endif %}
+                    {% if product.faqs.all %}
+                    <button class="nav-link" data-tab="faq" role="tab" id="tab-btn-faq" aria-selected="false" aria-controls="tab-faq">
+                        <i class="bi bi-question-circle"></i> FAQ
+                    </button>
+                    {% endif %}
+                </div>
 
-                        {% if product.has_chemical_identification or product.has_physical_properties or product.specs.all %}
-                        <button class="nav-link" data-tab="specifications" role="tab" id="tab-btn-specifications" aria-selected="false" aria-controls="tab-specifications">
-                            <i class="bi bi-clipboard-data"></i> Specifications
-                        </button>
+                <!-- Tab Content -->
+                <div class="tab-content-area">
+                    <!-- OVERVIEW TAB -->
+                    <div class="tab-pane active" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" tabindex="0">
+                        {% if product.full_description %}
+                        <div class="content-card">
+                            <h3><i class="bi bi-text-paragraph"></i> Product Description</h3>
+                            <div class="long-text">{{ product.full_description|linebreaksbr }}</div>
+                        </div>
                         {% endif %}
-
-                        {% if product.has_safety_info %}
-                        <button class="nav-link" data-tab="safety" role="tab" id="tab-btn-safety" aria-selected="false" aria-controls="tab-safety">
-                            <i class="bi bi-shield-exclamation"></i> Safety
-                        </button>
+                        {% if product.has_application_info %}
+                        <div class="content-card">
+                            <h3><i class="bi bi-gear"></i> Application &amp; Usage</h3>
+                            <table class="data-table">
+                                {% if product.primary_applications %}
+                                <tr><td class="dt-label">Primary Applications</td><td class="dt-value">{{ product.primary_applications|linebreaksbr }}</td></tr>
+                                {% endif %}
+                                {% if product.industry_usage %}
+                                <tr><td class="dt-label">Industry Usage</td><td class="dt-value">{{ product.industry_usage|linebreaksbr }}</td></tr>
+                                {% endif %}
+                                {% if product.recommended_dosage %}
+                                <tr><td class="dt-label">Recommended Dosage</td><td class="dt-value">{{ product.recommended_dosage|linebreaksbr }}</td></tr>
+                                {% endif %}
+                                {% if product.compatible_materials %}
+                                <tr><td class="dt-label">Compatible Materials</td><td class="dt-value">{{ product.compatible_materials|linebreaksbr }}</td></tr>
+                                {% endif %}
+                                {% if product.shelf_life %}
+                                <tr><td class="dt-label">Shelf Life</td><td class="dt-value">{{ product.shelf_life }}</td></tr>
+                                {% endif %}
+                            </table>
+                        </div>
                         {% endif %}
-
-                        {% if product.has_packaging_info %}
-                        <button class="nav-link" data-tab="packaging" role="tab" id="tab-btn-packaging" aria-selected="false" aria-controls="tab-packaging">
-                            <i class="bi bi-box-seam"></i> Packaging
-                        </button>
-                        {% endif %}
-
-                        {% if product.documents.all %}
-                        <button class="nav-link" data-tab="documents" role="tab" id="tab-btn-documents" aria-selected="false" aria-controls="tab-documents">
-                            <i class="bi bi-file-earmark-text"></i> Documents
-                        </button>
-                        {% endif %}
-
-                        {% if product.pricing_tiers.all %}
-                        <button class="nav-link" data-tab="pricing" role="tab" id="tab-btn-pricing" aria-selected="false" aria-controls="tab-pricing">
-                            <i class="bi bi-currency-dollar"></i> Pricing
-                        </button>
-                        {% endif %}
-
-                        {% if product.faqs.all %}
-                        <button class="nav-link" data-tab="faq" role="tab" id="tab-btn-faq" aria-selected="false" aria-controls="tab-faq">
-                            <i class="bi bi-question-circle"></i> FAQ
-                        </button>
+                        {% if product.pack_sizes_list %}
+                        <div class="content-card">
+                            <h3><i class="bi bi-boxes"></i> Available Pack Sizes</h3>
+                            <div class="tag-list">
+                                {% for ps in product.pack_sizes_list %}
+                                <span class="tag-item">{{ ps }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
                         {% endif %}
                     </div>
 
-                    <!-- Tab Content -->
-                    <div class="tab-content-area">
-
-                        <!-- ──────── OVERVIEW TAB ──────── -->
-                        <div class="tab-pane active" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" tabindex="0">
-
-                            {% if product.full_description %}
-                            <div class="content-card">
-                                <h3><i class="bi bi-text-paragraph"></i> Product Description</h3>
-                                <div class="long-text">{{ product.full_description|linebreaksbr }}</div>
-                            </div>
-                            {% endif %}
-
-                            {% if product.has_application_info %}
-                            <div class="content-card">
-                                <h3><i class="bi bi-gear"></i> Application &amp; Usage</h3>
-                                <table class="data-table">
-                                    {% if product.primary_applications %}
-                                    <tr>
-                                        <td class="dt-label">Primary Applications</td>
-                                        <td class="dt-value">{{ product.primary_applications|linebreaksbr }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.industry_usage %}
-                                    <tr>
-                                        <td class="dt-label">Industry Usage</td>
-                                        <td class="dt-value">{{ product.industry_usage|linebreaksbr }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.recommended_dosage %}
-                                    <tr>
-                                        <td class="dt-label">Recommended Dosage</td>
-                                        <td class="dt-value">{{ product.recommended_dosage|linebreaksbr }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.compatible_materials %}
-                                    <tr>
-                                        <td class="dt-label">Compatible Materials</td>
-                                        <td class="dt-value">{{ product.compatible_materials|linebreaksbr }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.shelf_life %}
-                                    <tr>
-                                        <td class="dt-label">Shelf Life</td>
-                                        <td class="dt-value">{{ product.shelf_life }}</td>
-                                    </tr>
-                                    {% endif %}
-                                </table>
-                            </div>
-                            {% endif %}
-
-                            {% if product.pack_sizes_list %}
-                            <div class="content-card">
-                                <h3><i class="bi bi-boxes"></i> Available Pack Sizes</h3>
-                                <div class="tag-list">
-                                    {% for ps in product.pack_sizes_list %}
-                                    <span class="tag-item">{{ ps }}</span>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        <!-- ──────── SPECIFICATIONS TAB ──────── -->
-                        {% if product.has_chemical_identification or product.has_physical_properties or product.specs.all %}
-                        <div class="tab-pane" id="tab-specifications" role="tabpanel" aria-labelledby="tab-btn-specifications" tabindex="0">
-
-                            {% if product.has_chemical_identification %}
-                            <div class="content-card">
-                                <h3><i class="bi bi-droplet-half"></i> Chemical Identification</h3>
-                                <table class="data-table">
-                                    {% if product.common_names %}
-                                    <tr>
-                                        <td class="dt-label">Common Names / Synonyms</td>
-                                        <td class="dt-value">
-                                            <div class="tag-list">
-                                                {% for n in product.common_names_list %}
-                                                <span class="tag-item">{{ n }}</span>
-                                                {% endfor %}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.molecular_formula %}
-                                    <tr>
-                                        <td class="dt-label">Molecular Formula</td>
-                                        <td class="dt-value" style="font-family:monospace;font-size:1rem">{{ product.molecular_formula }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.molecular_weight %}
-                                    <tr>
-                                        <td class="dt-label">Molecular Weight</td>
-                                        <td class="dt-value">{{ product.molecular_weight }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.purity_grade %}
-                                    <tr>
-                                        <td class="dt-label">Purity / Grade</td>
-                                        <td class="dt-value">{{ product.purity_grade }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.un_number %}
-                                    <tr>
-                                        <td class="dt-label">UN Number</td>
-                                        <td class="dt-value">{{ product.un_number }}</td>
-                                    </tr>
-                                    {% endif %}
-                                </table>
-
-                                {% if product.structure_image %}
-                                <hr class="section-divider">
-                                <h3 style="font-size:1.05rem"><i class="bi bi-bezier2"></i> Structure Formula</h3>
-                                <img src="{{ product.structure_image.url }}" alt="{{ product.name }} structure"
-                                     style="max-width:320px;border-radius:10px;border:1px solid #e2e8f0;padding:.5rem;background:#fff">
-                                {% endif %}
-                            </div>
-                            {% endif %}
-
-                            {% if product.has_physical_properties %}
-                            <div class="content-card">
-                                <h3><i class="bi bi-thermometer-half"></i> Physical &amp; Chemical Properties</h3>
-                                <table class="data-table">
-                                    {% if product.appearance %}
-                                    <tr><td class="dt-label">Appearance</td><td class="dt-value">{{ product.appearance }}</td></tr>
-                                    {% endif %}
-                                    {% if product.odor %}
-                                    <tr><td class="dt-label">Odor</td><td class="dt-value">{{ product.odor }}</td></tr>
-                                    {% endif %}
-                                    {% if product.density %}
-                                    <tr><td class="dt-label">Density</td><td class="dt-value">{{ product.density }}</td></tr>
-                                    {% endif %}
-                                    {% if product.melting_point %}
-                                    <tr><td class="dt-label">Melting Point</td><td class="dt-value">{{ product.melting_point }}</td></tr>
-                                    {% endif %}
-                                    {% if product.boiling_point %}
-                                    <tr><td class="dt-label">Boiling Point</td><td class="dt-value">{{ product.boiling_point }}</td></tr>
-                                    {% endif %}
-                                    {% if product.solubility %}
-                                    <tr><td class="dt-label">Solubility</td><td class="dt-value">{{ product.solubility|linebreaksbr }}</td></tr>
-                                    {% endif %}
-                                    {% if product.ph_value %}
-                                    <tr><td class="dt-label">pH</td><td class="dt-value">{{ product.ph_value }}</td></tr>
-                                    {% endif %}
-                                    {% if product.vapor_pressure %}
-                                    <tr><td class="dt-label">Vapor Pressure</td><td class="dt-value">{{ product.vapor_pressure }}</td></tr>
-                                    {% endif %}
-                                    {% if product.viscosity %}
-                                    <tr><td class="dt-label">Viscosity</td><td class="dt-value">{{ product.viscosity }}</td></tr>
-                                    {% endif %}
-                                    {% if product.refractive_index %}
-                                    <tr><td class="dt-label">Refractive Index</td><td class="dt-value">{{ product.refractive_index }}</td></tr>
-                                    {% endif %}
-                                    {% if product.stability_reactivity %}
-                                    <tr><td class="dt-label">Stability / Reactivity</td><td class="dt-value">{{ product.stability_reactivity|linebreaksbr }}</td></tr>
-                                    {% endif %}
-                                </table>
-                            </div>
-                            {% endif %}
-
-                            {% if product.specs.all %}
-                            <div class="content-card">
-                                <h3><i class="bi bi-list-check"></i> Additional Specifications</h3>
-                                <table class="data-table">
-                                    {% for spec in product.specs.all %}
-                                    <tr>
-                                        <td class="dt-label">{{ spec.label }}</td>
-                                        <td class="dt-value">{{ spec.value }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% endif %}
-
-                        <!-- ──────── SAFETY TAB ──────── -->
-                        {% if product.has_safety_info %}
-                        <div class="tab-pane" id="tab-safety" role="tabpanel" aria-labelledby="tab-btn-safety" tabindex="0">
-                            <div class="content-card">
-                                <h3><i class="bi bi-shield-exclamation"></i> Safety &amp; Regulatory</h3>
-
-                                {% if product.signal_word %}
-                                <div style="margin-bottom:1.2rem">
-                                    {% if product.signal_word == "Danger" %}
-                                    <span class="signal-danger"><i class="bi bi-exclamation-triangle-fill"></i> DANGER</span>
-                                    {% else %}
-                                    <span class="signal-warning"><i class="bi bi-exclamation-triangle"></i> WARNING</span>
-                                    {% endif %}
-                                </div>
-                                {% endif %}
-
-                                {% if product.hazard_pictograms_list %}
-                                <div class="hazard-pictograms">
-                                    {% for pic in product.hazard_pictograms_list %}
-                                    <span class="pictogram-badge"><i class="bi bi-diamond-fill"></i> {{ pic }}</span>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-
-                                {% if product.ghs_classification %}
-                                <div style="margin-bottom:1rem">
-                                    <strong style="font-size:.9rem;color:#2d3748">GHS Classification</strong>
-                                    <p class="long-text" style="margin-top:.3rem">{{ product.ghs_classification|linebreaksbr }}</p>
-                                </div>
-                                {% endif %}
-
-                                {% if product.hazard_statements_list %}
-                                <div style="margin-bottom:1rem">
-                                    <strong style="font-size:.9rem;color:#2d3748">Hazard Statements</strong>
-                                    <div style="margin-top:.4rem">
-                                        {% for h in product.hazard_statements_list %}
-                                        <span class="h-code">{{ h }}</span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                                {% if product.precautionary_statements_list %}
-                                <div style="margin-bottom:1rem">
-                                    <strong style="font-size:.9rem;color:#2d3748">Precautionary Statements</strong>
-                                    <div style="margin-top:.4rem">
-                                        {% for p in product.precautionary_statements_list %}
-                                        <span class="p-code">{{ p }}</span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                                <hr class="section-divider">
-
-                                <table class="data-table">
-                                    {% if product.flash_point %}
-                                    <tr><td class="dt-label">Flash Point</td><td class="dt-value">{{ product.flash_point }}</td></tr>
-                                    {% endif %}
-                                    {% if product.transport_class %}
-                                    <tr><td class="dt-label">Transport Class</td><td class="dt-value">{{ product.transport_class }}</td></tr>
-                                    {% endif %}
-                                    {% if product.packing_group %}
-                                    <tr><td class="dt-label">Packing Group</td><td class="dt-value">{{ product.packing_group }}</td></tr>
-                                    {% endif %}
-                                    {% if product.un_number %}
-                                    <tr><td class="dt-label">UN Number</td><td class="dt-value">{{ product.un_number }}</td></tr>
-                                    {% endif %}
-                                    {% if product.iso_certification %}
-                                    <tr><td class="dt-label">ISO Certification</td><td class="dt-value">{{ product.iso_certification }}</td></tr>
-                                    {% endif %}
-                                </table>
-                            </div>
-
-                            {% if product.storage_conditions or product.handling_instructions or product.disposal_information or product.regulatory_compliance %}
-                            <div class="content-card">
-                                <h3><i class="bi bi-info-square"></i> Handling &amp; Storage</h3>
-                                <table class="data-table">
-                                    {% if product.storage_conditions %}
-                                    <tr><td class="dt-label">Storage Conditions</td><td class="dt-value">{{ product.storage_conditions|linebreaksbr }}</td></tr>
-                                    {% endif %}
-                                    {% if product.handling_instructions %}
-                                    <tr><td class="dt-label">Handling Instructions</td><td class="dt-value">{{ product.handling_instructions|linebreaksbr }}</td></tr>
-                                    {% endif %}
-                                    {% if product.disposal_information %}
-                                    <tr><td class="dt-label">Disposal Information</td><td class="dt-value">{{ product.disposal_information|linebreaksbr }}</td></tr>
-                                    {% endif %}
-                                    {% if product.regulatory_compliance %}
-                                    <tr><td class="dt-label">Regulatory Compliance</td><td class="dt-value">{{ product.regulatory_compliance|linebreaksbr }}</td></tr>
-                                    {% endif %}
-                                </table>
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% endif %}
-
-                        <!-- ──────── PACKAGING TAB ──────── -->
-                        {% if product.has_packaging_info %}
-                        <div class="tab-pane" id="tab-packaging" role="tabpanel" aria-labelledby="tab-btn-packaging" tabindex="0">
-                            <div class="content-card">
-                                <h3><i class="bi bi-box-seam"></i> Packaging &amp; Logistics</h3>
-                                <table class="data-table">
-                                    {% if product.packaging_type %}
-                                    <tr><td class="dt-label">Packaging Type</td><td class="dt-value">{{ product.packaging_type }}</td></tr>
-                                    {% endif %}
-                                    {% if product.net_weight %}
-                                    <tr><td class="dt-label">Net Weight</td><td class="dt-value">{{ product.net_weight }}</td></tr>
-                                    {% endif %}
-                                    {% if product.gross_weight %}
-                                    <tr><td class="dt-label">Gross Weight</td><td class="dt-value">{{ product.gross_weight }}</td></tr>
-                                    {% endif %}
-                                    {% if product.dimensions %}
-                                    <tr><td class="dt-label">Dimensions</td><td class="dt-value">{{ product.dimensions }}</td></tr>
-                                    {% endif %}
-                                    {% if product.moq %}
-                                    <tr><td class="dt-label">Minimum Order Qty</td><td class="dt-value">{{ product.moq }}</td></tr>
-                                    {% endif %}
-                                    {% if product.lead_time %}
-                                    <tr><td class="dt-label">Lead Time</td><td class="dt-value">{{ product.lead_time }}</td></tr>
-                                    {% endif %}
-                                    {% if product.dangerous_goods is not None %}
-                                    <tr>
-                                        <td class="dt-label">Dangerous Goods</td>
-                                        <td class="dt-value">
-                                            {% if product.dangerous_goods %}
-                                            <span style="color:#dc2626;font-weight:600"><i class="bi bi-exclamation-triangle-fill"></i> Yes</span>
-                                            {% else %}
-                                            <span style="color:#16a34a;font-weight:600"><i class="bi bi-check-circle-fill"></i> No</span>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if product.shipping_restrictions %}
-                                    <tr><td class="dt-label">Shipping Restrictions</td><td class="dt-value">{{ product.shipping_restrictions|linebreaksbr }}</td></tr>
-                                    {% endif %}
-                                </table>
-                            </div>
-                        </div>
-                        {% endif %}
-
-                        <!-- ──────── DOCUMENTS TAB ──────── -->
-                        {% if product.documents.all %}
-                        <div class="tab-pane" id="tab-documents" role="tabpanel" aria-labelledby="tab-btn-documents" tabindex="0">
-                            <div class="content-card">
-                                <h3><i class="bi bi-file-earmark-text"></i> Documentation &amp; Certificates</h3>
-                                <div class="doc-grid">
-                                    {% for doc in product.documents.all %}
-                                    <a href="{{ doc.file.url }}" class="doc-card" target="_blank" rel="noopener">
-                                        <div class="doc-icon {{ doc.doc_type|lower }}">
-                                            <i class="bi {{ doc.icon_class }}"></i>
+                    <!-- SPECIFICATIONS TAB -->
+                    {% if product.has_chemical_identification or product.has_physical_properties or product.specs.all %}
+                    <div class="tab-pane" id="tab-specifications" role="tabpanel" aria-labelledby="tab-btn-specifications" tabindex="0">
+                        {% if product.has_chemical_identification %}
+                        <div class="content-card">
+                            <h3><i class="bi bi-droplet-half"></i> Chemical Identification</h3>
+                            <table class="data-table">
+                                {% if product.common_names %}
+                                <tr>
+                                    <td class="dt-label">Common Names / Synonyms</td>
+                                    <td class="dt-value">
+                                        <div class="tag-list">
+                                            {% for n in product.common_names_list %}
+                                            <span class="tag-item">{{ n }}</span>
+                                            {% endfor %}
                                         </div>
-                                        <div class="doc-info">
-                                            <div class="doc-title">{{ doc.title }}</div>
-                                            <div class="doc-type">{{ doc.get_doc_type_display }}</div>
-                                        </div>
-                                    </a>
-                                    {% endfor %}
-                                </div>
-                            </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% if product.molecular_formula %}
+                                <tr><td class="dt-label">Molecular Formula</td><td class="dt-value" style="font-family:monospace;font-size:1rem">{{ product.molecular_formula }}</td></tr>
+                                {% endif %}
+                                {% if product.molecular_weight %}
+                                <tr><td class="dt-label">Molecular Weight</td><td class="dt-value">{{ product.molecular_weight }}</td></tr>
+                                {% endif %}
+                                {% if product.purity_grade %}
+                                <tr><td class="dt-label">Purity / Grade</td><td class="dt-value">{{ product.purity_grade }}</td></tr>
+                                {% endif %}
+                                {% if product.un_number %}
+                                <tr><td class="dt-label">UN Number</td><td class="dt-value">{{ product.un_number }}</td></tr>
+                                {% endif %}
+                            </table>
+                            {% if product.structure_image %}
+                            <hr class="section-divider">
+                            <h3 style="font-size:1.05rem"><i class="bi bi-bezier2"></i> Structure Formula</h3>
+                            <img src="{{ product.structure_image.url }}" alt="{{ product.name }} structure"
+                                 loading="lazy" class="img-fluid" style="max-width:320px;border-radius:10px;border:1px solid #e2e8f0;padding:.5rem;background:#fff">
+                            {% endif %}
                         </div>
                         {% endif %}
+                        {% if product.has_physical_properties %}
+                        <div class="content-card">
+                            <h3><i class="bi bi-thermometer-half"></i> Physical &amp; Chemical Properties</h3>
+                            <table class="data-table">
+                                {% if product.appearance %}<tr><td class="dt-label">Appearance</td><td class="dt-value">{{ product.appearance }}</td></tr>{% endif %}
+                                {% if product.odor %}<tr><td class="dt-label">Odor</td><td class="dt-value">{{ product.odor }}</td></tr>{% endif %}
+                                {% if product.density %}<tr><td class="dt-label">Density</td><td class="dt-value">{{ product.density }}</td></tr>{% endif %}
+                                {% if product.melting_point %}<tr><td class="dt-label">Melting Point</td><td class="dt-value">{{ product.melting_point }}</td></tr>{% endif %}
+                                {% if product.boiling_point %}<tr><td class="dt-label">Boiling Point</td><td class="dt-value">{{ product.boiling_point }}</td></tr>{% endif %}
+                                {% if product.solubility %}<tr><td class="dt-label">Solubility</td><td class="dt-value">{{ product.solubility|linebreaksbr }}</td></tr>{% endif %}
+                                {% if product.ph_value %}<tr><td class="dt-label">pH</td><td class="dt-value">{{ product.ph_value }}</td></tr>{% endif %}
+                                {% if product.vapor_pressure %}<tr><td class="dt-label">Vapor Pressure</td><td class="dt-value">{{ product.vapor_pressure }}</td></tr>{% endif %}
+                                {% if product.viscosity %}<tr><td class="dt-label">Viscosity</td><td class="dt-value">{{ product.viscosity }}</td></tr>{% endif %}
+                                {% if product.refractive_index %}<tr><td class="dt-label">Refractive Index</td><td class="dt-value">{{ product.refractive_index }}</td></tr>{% endif %}
+                                {% if product.stability_reactivity %}<tr><td class="dt-label">Stability / Reactivity</td><td class="dt-value">{{ product.stability_reactivity|linebreaksbr }}</td></tr>{% endif %}
+                            </table>
+                        </div>
+                        {% endif %}
+                        {% if product.specs.all %}
+                        <div class="content-card">
+                            <h3><i class="bi bi-list-check"></i> Additional Specifications</h3>
+                            <table class="data-table">
+                                {% for spec in product.specs.all %}
+                                <tr><td class="dt-label">{{ spec.label }}</td><td class="dt-value">{{ spec.value }}</td></tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
 
-                        <!-- ──────── PRICING TAB ──────── -->
-                        {% if product.pricing_tiers.all %}
-                        <div class="tab-pane" id="tab-pricing" role="tabpanel" aria-labelledby="tab-btn-pricing" tabindex="0">
-                            <div class="content-card">
-                                <h3><i class="bi bi-currency-dollar"></i> Pricing Information</h3>
+                    <!-- SAFETY TAB -->
+                    {% if product.has_safety_info %}
+                    <div class="tab-pane" id="tab-safety" role="tabpanel" aria-labelledby="tab-btn-safety" tabindex="0">
+                        <div class="content-card">
+                            <h3><i class="bi bi-shield-exclamation"></i> Safety &amp; Regulatory</h3>
+                            {% if product.signal_word %}
+                            <div style="margin-bottom:1.2rem">
+                                {% if product.signal_word == "Danger" %}
+                                <span class="signal-danger"><i class="bi bi-exclamation-triangle-fill"></i> DANGER</span>
+                                {% else %}
+                                <span class="signal-warning"><i class="bi bi-exclamation-triangle"></i> WARNING</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% if product.hazard_pictograms_list %}
+                            <div class="hazard-pictograms">
+                                {% for pic in product.hazard_pictograms_list %}
+                                <span class="pictogram-badge"><i class="bi bi-diamond-fill"></i> {{ pic }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% if product.ghs_classification %}
+                            <div style="margin-bottom:1rem">
+                                <strong style="font-size:.9rem;color:#2d3748">GHS Classification</strong>
+                                <p class="long-text" style="margin-top:.3rem">{{ product.ghs_classification|linebreaksbr }}</p>
+                            </div>
+                            {% endif %}
+                            {% if product.hazard_statements_list %}
+                            <div style="margin-bottom:1rem">
+                                <strong style="font-size:.9rem;color:#2d3748">Hazard Statements</strong>
+                                <div style="margin-top:.4rem">
+                                    {% for h in product.hazard_statements_list %}<span class="h-code">{{ h }}</span>{% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if product.precautionary_statements_list %}
+                            <div style="margin-bottom:1rem">
+                                <strong style="font-size:.9rem;color:#2d3748">Precautionary Statements</strong>
+                                <div style="margin-top:.4rem">
+                                    {% for p in product.precautionary_statements_list %}<span class="p-code">{{ p }}</span>{% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            <hr class="section-divider">
+                            <table class="data-table">
+                                {% if product.flash_point %}<tr><td class="dt-label">Flash Point</td><td class="dt-value">{{ product.flash_point }}</td></tr>{% endif %}
+                                {% if product.transport_class %}<tr><td class="dt-label">Transport Class</td><td class="dt-value">{{ product.transport_class }}</td></tr>{% endif %}
+                                {% if product.packing_group %}<tr><td class="dt-label">Packing Group</td><td class="dt-value">{{ product.packing_group }}</td></tr>{% endif %}
+                                {% if product.un_number %}<tr><td class="dt-label">UN Number</td><td class="dt-value">{{ product.un_number }}</td></tr>{% endif %}
+                                {% if product.iso_certification %}<tr><td class="dt-label">ISO Certification</td><td class="dt-value">{{ product.iso_certification }}</td></tr>{% endif %}
+                            </table>
+                        </div>
+                        {% if product.storage_conditions or product.handling_instructions or product.disposal_information or product.regulatory_compliance %}
+                        <div class="content-card">
+                            <h3><i class="bi bi-info-square"></i> Handling &amp; Storage</h3>
+                            <table class="data-table">
+                                {% if product.storage_conditions %}<tr><td class="dt-label">Storage Conditions</td><td class="dt-value">{{ product.storage_conditions|linebreaksbr }}</td></tr>{% endif %}
+                                {% if product.handling_instructions %}<tr><td class="dt-label">Handling Instructions</td><td class="dt-value">{{ product.handling_instructions|linebreaksbr }}</td></tr>{% endif %}
+                                {% if product.disposal_information %}<tr><td class="dt-label">Disposal Information</td><td class="dt-value">{{ product.disposal_information|linebreaksbr }}</td></tr>{% endif %}
+                                {% if product.regulatory_compliance %}<tr><td class="dt-label">Regulatory Compliance</td><td class="dt-value">{{ product.regulatory_compliance|linebreaksbr }}</td></tr>{% endif %}
+                            </table>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- PACKAGING TAB -->
+                    {% if product.has_packaging_info %}
+                    <div class="tab-pane" id="tab-packaging" role="tabpanel" aria-labelledby="tab-btn-packaging" tabindex="0">
+                        <div class="content-card">
+                            <h3><i class="bi bi-box-seam"></i> Packaging &amp; Logistics</h3>
+                            <table class="data-table">
+                                {% if product.packaging_type %}<tr><td class="dt-label">Packaging Type</td><td class="dt-value">{{ product.packaging_type }}</td></tr>{% endif %}
+                                {% if product.net_weight %}<tr><td class="dt-label">Net Weight</td><td class="dt-value">{{ product.net_weight }}</td></tr>{% endif %}
+                                {% if product.gross_weight %}<tr><td class="dt-label">Gross Weight</td><td class="dt-value">{{ product.gross_weight }}</td></tr>{% endif %}
+                                {% if product.dimensions %}<tr><td class="dt-label">Dimensions</td><td class="dt-value">{{ product.dimensions }}</td></tr>{% endif %}
+                                {% if product.moq %}<tr><td class="dt-label">Minimum Order Qty</td><td class="dt-value">{{ product.moq }}</td></tr>{% endif %}
+                                {% if product.lead_time %}<tr><td class="dt-label">Lead Time</td><td class="dt-value">{{ product.lead_time }}</td></tr>{% endif %}
+                                {% if product.dangerous_goods is not None %}
+                                <tr>
+                                    <td class="dt-label">Dangerous Goods</td>
+                                    <td class="dt-value">
+                                        {% if product.dangerous_goods %}
+                                        <span style="color:#dc2626;font-weight:600"><i class="bi bi-exclamation-triangle-fill"></i> Yes</span>
+                                        {% else %}
+                                        <span style="color:#16a34a;font-weight:600"><i class="bi bi-check-circle-fill"></i> No</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% if product.shipping_restrictions %}<tr><td class="dt-label">Shipping Restrictions</td><td class="dt-value">{{ product.shipping_restrictions|linebreaksbr }}</td></tr>{% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- DOCUMENTS TAB -->
+                    {% if product.documents.all %}
+                    <div class="tab-pane" id="tab-documents" role="tabpanel" aria-labelledby="tab-btn-documents" tabindex="0">
+                        <div class="content-card">
+                            <h3><i class="bi bi-file-earmark-text"></i> Documentation &amp; Certificates</h3>
+                            <div class="doc-grid">
+                                {% for doc in product.documents.all %}
+                                <a href="{{ doc.file.url }}" class="doc-card" target="_blank" rel="noopener">
+                                    <div class="doc-icon {{ doc.doc_type|lower }}">
+                                        <i class="bi {{ doc.icon_class }}"></i>
+                                    </div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">{{ doc.title }}</div>
+                                        <div class="doc-type">{{ doc.get_doc_type_display }}</div>
+                                    </div>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- PRICING TAB -->
+                    {% if product.pricing_tiers.all %}
+                    <div class="tab-pane" id="tab-pricing" role="tabpanel" aria-labelledby="tab-btn-pricing" tabindex="0">
+                        <div class="content-card">
+                            <h3><i class="bi bi-currency-dollar"></i> Pricing Information</h3>
+                            <div class="table-responsive-wrapper">
                                 <table class="pricing-table">
                                     <thead>
                                         <tr>
@@ -781,178 +416,134 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <div style="margin-top:1.2rem;text-align:center">
-                                    <a href="/#contact" class="cta-btn cta-primary">
-                                        <i class="bi bi-envelope"></i> Request Custom Quote
-                                    </a>
-                                </div>
+                            </div>
+                            <div style="margin-top:1.2rem;text-align:center">
+                                <a href="/#contact" class="cta-btn cta-primary">
+                                    <i class="bi bi-envelope"></i> Request Custom Quote
+                                </a>
                             </div>
                         </div>
-                        {% endif %}
+                    </div>
+                    {% endif %}
 
-                        <!-- ──────── FAQ TAB ──────── -->
-                        {% if product.faqs.all %}
-                        <div class="tab-pane" id="tab-faq" role="tabpanel" aria-labelledby="tab-btn-faq" tabindex="0">
-                            <div class="content-card">
-                                <h3><i class="bi bi-question-circle"></i> Frequently Asked Questions</h3>
-                                {% for fq in product.faqs.all %}
-                                <div class="faq-item">
-                                    <button type="button" class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
-                                        <span>{{ fq.question }}</span>
-                                        <i class="bi bi-chevron-down"></i>
-                                    </button>
-                                    <div class="faq-answer">
-                                        <div class="faq-answer-inner">{{ fq.answer|linebreaksbr }}</div>
-                                    </div>
+                    <!-- FAQ TAB -->
+                    {% if product.faqs.all %}
+                    <div class="tab-pane" id="tab-faq" role="tabpanel" aria-labelledby="tab-btn-faq" tabindex="0">
+                        <div class="content-card">
+                            <h3><i class="bi bi-question-circle"></i> Frequently Asked Questions</h3>
+                            {% for fq in product.faqs.all %}
+                            <div class="faq-item">
+                                <button type="button" class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+                                    <span>{{ fq.question }}</span>
+                                    <i class="bi bi-chevron-down"></i>
+                                </button>
+                                <div class="faq-answer">
+                                    <div class="faq-answer-inner">{{ fq.answer|linebreaksbr }}</div>
                                 </div>
-                                {% endfor %}
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- Sidebar -->
-                <div class="sidebar-sticky" style="order:2">
-                    <!-- Quick Actions -->
-                    <div class="sidebar-card">
-                        <h4>Interested in {{ product.name }}?</h4>
-                        <a href="/#contact" class="cta-btn cta-primary" style="width:100%;justify-content:center;margin-bottom:.7rem">
-                            <i class="bi bi-envelope"></i> Request a Quote
-                        </a>
-                        <a href="{% url 'products' %}" class="cta-btn cta-outline" style="width:100%;justify-content:center">
-                            <i class="bi bi-grid"></i> Browse Products
-                        </a>
-                    </div>
-
-                    <!-- Contact Info -->
-                    <div class="sidebar-card">
-                        <h4>Need Help?</h4>
-                        <div class="info-row">
-                            <i class="bi bi-telephone"></i>
-                            <div><strong>Phone</strong><br>+91 9898837713</div>
-                        </div>
-                        <div class="info-row">
-                            <i class="bi bi-envelope-at"></i>
-                            <div><strong>Email</strong><br>info@vasudevchemopharma.com</div>
-                        </div>
-                        <div class="info-row">
-                            <i class="bi bi-geo-alt"></i>
-                            <div><strong>Location</strong><br>Ankleshwer, Gujarat, India</div>
-                        </div>
-                        {% if product.customer_support_contact %}
-                        <hr class="section-divider">
-                        <div class="info-row">
-                            <i class="bi bi-headset"></i>
-                            <div><strong>Product Support</strong><br>{{ product.customer_support_contact|linebreaksbr }}</div>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Quick Facts Sidebar -->
-                    {% if product.manufacturer or product.batch_traceability or product.moq or product.lead_time or product.shelf_life %}
-                    <div class="sidebar-card">
-                        <h4>Quick Facts</h4>
-                        {% if product.manufacturer %}
-                        <div class="info-row">
-                            <i class="bi bi-building"></i>
-                            <div><strong>Manufacturer</strong><br>{{ product.manufacturer }}</div>
-                        </div>
-                        {% endif %}
-                        {% if product.moq %}
-                        <div class="info-row">
-                            <i class="bi bi-stack"></i>
-                            <div><strong>MOQ</strong><br>{{ product.moq }}</div>
-                        </div>
-                        {% endif %}
-                        {% if product.lead_time %}
-                        <div class="info-row">
-                            <i class="bi bi-clock"></i>
-                            <div><strong>Lead Time</strong><br>{{ product.lead_time }}</div>
-                        </div>
-                        {% endif %}
-                        {% if product.shelf_life %}
-                        <div class="info-row">
-                            <i class="bi bi-calendar-check"></i>
-                            <div><strong>Shelf Life</strong><br>{{ product.shelf_life }}</div>
-                        </div>
-                        {% endif %}
-                        {% if product.batch_traceability %}
-                        <div class="info-row">
-                            <i class="bi bi-qr-code"></i>
-                            <div><strong>Batch Traceability</strong><br>{{ product.batch_traceability|linebreaksbr }}</div>
-                        </div>
-                        {% endif %}
                     </div>
                     {% endif %}
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ═══════════════════ RELATED PRODUCTS ═══════════════════ -->
-    {% if related_products %}
-    <section class="related-section">
-        <div class="container">
-            <h2 class="section-heading">Related Products</h2>
-            <p class="section-subheading">Explore similar products in {{ product.category.label }}</p>
-            <div class="related-grid">
-                {% for rp in related_products %}
-                <a href="{% url 'product_detail' slug=rp.slug %}" class="related-card">
-                    <div class="related-card-body">
-                        <div class="r-icon">{{ rp.icon|default:"?" }}</div>
-                        <div class="r-cat">{{ rp.category.label }}</div>
-                        <h4>{{ rp.name }}</h4>
-                        <p>{{ rp.description|truncatewords:18 }}</p>
-                    </div>
-                </a>
-                {% endfor %}
+            <!-- Sidebar -->
+            <div class="sidebar-sticky" style="order:2">
+                <div class="sidebar-card">
+                    <h4>Interested in {{ product.name }}?</h4>
+                    <a href="/#contact" class="cta-btn cta-primary" style="width:100%;justify-content:center;margin-bottom:.7rem">
+                        <i class="bi bi-envelope"></i> Request a Quote
+                    </a>
+                    <a href="{% url 'products' %}" class="cta-btn cta-outline" style="width:100%;justify-content:center">
+                        <i class="bi bi-grid"></i> Browse Products
+                    </a>
+                </div>
+                <div class="sidebar-card">
+                    <h4>Need Help?</h4>
+                    <div class="info-row"><i class="bi bi-telephone"></i><div><strong>Phone</strong><br>+91 9898837713</div></div>
+                    <div class="info-row"><i class="bi bi-envelope-at"></i><div><strong>Email</strong><br>info@vasudevchemopharma.com</div></div>
+                    <div class="info-row"><i class="bi bi-geo-alt"></i><div><strong>Location</strong><br>Ankleshwer, Gujarat, India</div></div>
+                    {% if product.customer_support_contact %}
+                    <hr class="section-divider">
+                    <div class="info-row"><i class="bi bi-headset"></i><div><strong>Product Support</strong><br>{{ product.customer_support_contact|linebreaksbr }}</div></div>
+                    {% endif %}
+                </div>
+                {% if product.manufacturer or product.batch_traceability or product.moq or product.lead_time or product.shelf_life %}
+                <div class="sidebar-card">
+                    <h4>Quick Facts</h4>
+                    {% if product.manufacturer %}<div class="info-row"><i class="bi bi-building"></i><div><strong>Manufacturer</strong><br>{{ product.manufacturer }}</div></div>{% endif %}
+                    {% if product.moq %}<div class="info-row"><i class="bi bi-stack"></i><div><strong>MOQ</strong><br>{{ product.moq }}</div></div>{% endif %}
+                    {% if product.lead_time %}<div class="info-row"><i class="bi bi-clock"></i><div><strong>Lead Time</strong><br>{{ product.lead_time }}</div></div>{% endif %}
+                    {% if product.shelf_life %}<div class="info-row"><i class="bi bi-calendar-check"></i><div><strong>Shelf Life</strong><br>{{ product.shelf_life }}</div></div>{% endif %}
+                    {% if product.batch_traceability %}<div class="info-row"><i class="bi bi-qr-code"></i><div><strong>Batch Traceability</strong><br>{{ product.batch_traceability|linebreaksbr }}</div></div>{% endif %}
+                </div>
+                {% endif %}
             </div>
         </div>
-    </section>
-    {% endif %}
+    </div>
+</section>
 
-    <!-- Footer -->
-    {% include 'footer.html' %}
+<!-- Related Products -->
+{% if related_products %}
+<section class="related-section">
+    <div class="container">
+        <h2 class="section-heading">Related Products</h2>
+        <p class="section-subheading">Explore similar products in {{ product.category.label }}</p>
+        <div class="related-grid">
+            {% for rp in related_products %}
+            <a href="{% url 'product_detail' slug=rp.slug %}" class="related-card">
+                <div class="related-card-body">
+                    <div class="r-icon">{{ rp.icon|default:"?" }}</div>
+                    <div class="r-cat">{{ rp.category.label }}</div>
+                    <h4>{{ rp.name }}</h4>
+                    <p>{{ rp.description|truncatewords:18 }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+{% block extra_js %}
+<script>
+    /* JS flag for conditional CSS */
+    document.documentElement.classList.add('js');
 
-    <script>
-        // JS flag for conditional CSS
-        document.documentElement.classList.add('js');
-
-        /* ── Tab switching with ARIA ── */
+    /* Tab switching with ARIA */
+    (function () {
         var tabNav = document.querySelector('.htab-nav');
+        if (!tabNav) return;
         var tabBtns = Array.prototype.slice.call(tabNav.querySelectorAll('.nav-link'));
 
-        function activateTab(btn){
-            tabBtns.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.tab-content-area .tab-pane').forEach(function(p){ p.classList.remove('active'); });
+        function activateTab(btn) {
+            tabBtns.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+            document.querySelectorAll('.tab-content-area .tab-pane').forEach(function (p) { p.classList.remove('active'); });
             btn.classList.add('active');
-            btn.setAttribute('aria-selected','true');
+            btn.setAttribute('aria-selected', 'true');
             var panel = document.getElementById('tab-' + btn.getAttribute('data-tab'));
-            if(panel) panel.classList.add('active');
+            if (panel) panel.classList.add('active');
             btn.focus();
         }
 
-        tabBtns.forEach(function(btn){
-            btn.addEventListener('click', function(){ activateTab(btn); });
+        tabBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () { activateTab(btn); });
         });
 
-        /* Keyboard navigation for tabs (Left/Right/Home/End) */
-        tabNav.addEventListener('keydown', function(e){
+        /* Keyboard navigation for tabs */
+        tabNav.addEventListener('keydown', function (e) {
             var idx = tabBtns.indexOf(document.activeElement);
-            if(idx === -1) return;
+            if (idx === -1) return;
             var newIdx = idx;
-            if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                 newIdx = (idx + 1) % tabBtns.length;
-            } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
                 newIdx = (idx - 1 + tabBtns.length) % tabBtns.length;
-            } else if(e.key === 'Home'){
+            } else if (e.key === 'Home') {
                 newIdx = 0;
-            } else if(e.key === 'End'){
+            } else if (e.key === 'End') {
                 newIdx = tabBtns.length - 1;
             } else {
                 return;
@@ -960,48 +551,51 @@
             e.preventDefault();
             activateTab(tabBtns[newIdx]);
         });
+    })();
 
-        /* ── Image gallery switching ── */
-        function switchImage(thumb, url, alt){
-            var main = document.getElementById('mainImg');
-            if(main){
-                main.src = url;
-                main.alt = alt;
+    /* Image gallery switching */
+    function switchImage(thumb, url, alt) {
+        var main = document.getElementById('mainImg');
+        if (main) { main.src = url; main.alt = alt; }
+        document.querySelectorAll('.gallery-thumbs .thumb').forEach(function (t) { t.classList.remove('active'); });
+        thumb.classList.add('active');
+    }
+
+    /* FAQ accordion – dynamic max-height so long answers are never clipped */
+    function toggleFaq(el) {
+        var item = el.parentElement;
+        var wasOpen = item.classList.contains('open');
+        /* Close all items first */
+        document.querySelectorAll('.faq-item').forEach(function (fi) {
+            fi.classList.remove('open');
+            fi.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            var ans = fi.querySelector('.faq-answer');
+            if (ans) ans.style.maxHeight = '0px';
+        });
+        /* Open the clicked item */
+        if (!wasOpen) {
+            item.classList.add('open');
+            el.setAttribute('aria-expanded', 'true');
+            var answer = item.querySelector('.faq-answer');
+            if (answer) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
             }
-            document.querySelectorAll('.gallery-thumbs .thumb').forEach(function(t){ t.classList.remove('active'); });
-            thumb.classList.add('active');
         }
+    }
 
-        /* ── FAQ accordion with aria-expanded ── */
-        function toggleFaq(el){
-            var item = el.parentElement;
-            var wasOpen = item.classList.contains('open');
-            document.querySelectorAll('.faq-item').forEach(function(fi){
-                fi.classList.remove('open');
-                fi.querySelector('.faq-question').setAttribute('aria-expanded','false');
-            });
-            if(!wasOpen){
-                item.classList.add('open');
-                el.setAttribute('aria-expanded','true');
-            }
-        }
-
-        /* ── Fade-in on scroll (with feature detection) ── */
+    /* Fade-in on scroll */
+    (function () {
         var fadeEls = document.querySelectorAll('.content-card, .sidebar-card, .related-card');
-        if(window.IntersectionObserver){
-            var fadeObserver = new IntersectionObserver(function(entries){
-                entries.forEach(function(entry){
-                    if(entry.isIntersecting) entry.target.classList.add('visible');
+        if (window.IntersectionObserver) {
+            var fadeObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
                 });
-            }, {threshold:0.08, rootMargin:'0px 0px -60px 0px'});
-            fadeEls.forEach(function(el){
-                el.classList.add('fade-in');
-                fadeObserver.observe(el);
-            });
+            }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+            fadeEls.forEach(function (el) { el.classList.add('fade-in'); fadeObserver.observe(el); });
         } else {
-            fadeEls.forEach(function(el){ el.classList.add('visible'); });
+            fadeEls.forEach(function (el) { el.classList.add('visible'); });
         }
-    </script>
-</body>
-
-</html>
+    })();
+</script>
+{% endblock %}

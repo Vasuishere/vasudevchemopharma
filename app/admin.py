@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import (
     ProductCategory, Product, ProductSpec,
     ProductImage, ProductDocument, ProductFAQ, ProductPricingTier,
+    CompanyDetails,
 )
 
 
@@ -123,3 +124,52 @@ class ProductAdmin(admin.ModelAdmin):
 class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = ("label", "slug", "show_in_overview", "order")
     prepopulated_fields = {"slug": ("label",)}
+
+
+@admin.register(CompanyDetails)
+class CompanyDetailsAdmin(admin.ModelAdmin):
+    """Singleton admin — always edit the single company record."""
+
+    fieldsets = [
+        ("Branding", {
+            "fields": (
+                "company_name", "company_logo", "company_name_image",
+                "tagline", "about_short",
+            ),
+        }),
+        ("Phone Numbers", {
+            "fields": ("phone_primary", "phone_secondary", "phone_export"),
+        }),
+        ("Email Addresses", {
+            "fields": ("email_general", "email_sales", "email_export", "email_support"),
+        }),
+        ("Address", {
+            "fields": (
+                "address_line1", "address_line2",
+                "city", "state", "country", "pincode",
+            ),
+        }),
+        ("Legal / Statutory", {
+            "classes": ("collapse",),
+            "fields": ("gst_number", "pan_number", "cin_number", "iec_code"),
+        }),
+        ("Social Media & Web", {
+            "classes": ("collapse",),
+            "fields": (
+                "website_url", "linkedin_url", "facebook_url",
+                "twitter_url", "instagram_url", "youtube_url",
+                "whatsapp_number",
+            ),
+        }),
+        ("Other", {
+            "classes": ("collapse",),
+            "fields": ("year_established", "google_maps_embed"),
+        }),
+    ]
+
+    def has_add_permission(self, request):
+        """Only allow one record."""
+        return not CompanyDetails.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
