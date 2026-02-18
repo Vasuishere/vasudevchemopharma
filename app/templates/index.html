@@ -3,6 +3,13 @@
 {% load static %}
 
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WKSS8JRT');</script>
+    <!-- End Google Tag Manager -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6W2QP965C"></script>
     <script>
@@ -26,108 +33,6 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <!-- Inline styles removed; using external stylesheet -->
     <style>
-        /* Responsive Navbar Styles */
-        .navbar-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            background: #f9f9f9;
-            padding: 0.8rem 1.2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1a365d;
-            text-decoration: none;
-            margin-left: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: #1a365d;
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-
-        .nav-links li a {
-            color: #1a365d;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background 0.2s, color 0.2s;
-            display: inline-block;
-        }
-
-        .nav-links li a:hover,
-        .nav-links li a:focus {
-            background: rgba(26, 54, 93, 0.08);
-            color: #e85a4f;
-            text-decoration: none;
-        }
-
-        /* Mobile Styles */
-        @media (max-width: 768px) {
-            .navbar-container {
-                flex-direction: row;
-                padding: 0.8rem 0.8rem;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 60px;
-                right: 0;
-                background: #f9f9f9;
-                flex-direction: column;
-                width: 100%;
-                gap: 0;
-                border-radius: 0 0 8px 8px;
-                z-index: 100;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li a {
-                padding: 1rem;
-                border-bottom: 1px solid #e2e8f0;
-                color: #1a365d;
-            }
-
-            .nav-links li:last-child a {
-                border-bottom: none;
-            }
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -702,34 +607,6 @@
         }
 
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                gap: 0;
-                margin-top: 1rem;
-                background: rgba(26, 54, 93, 0.95);
-                border-radius: 8px;
-                padding: 1rem;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                padding: 1rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .nav-links a:last-child {
-                border-bottom: none;
-            }
-
             .hero {
                 padding: 80px 0;
             }
@@ -787,10 +664,6 @@
                 padding: 0 20px;
             }
 
-            .logo {
-                font-size: 1.4rem;
-            }
-
             .hero h1 {
                 font-size: 1.8rem;
             }
@@ -846,6 +719,10 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WKSS8JRT"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- Header & Navigation -->
     <header>
         {% include 'infotab.html' %}

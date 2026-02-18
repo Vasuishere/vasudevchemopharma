@@ -1,8 +1,9 @@
+{% load static %}
 <style>
     /* Header & Navigation */
     header {
         background-color: #f9f9f9;
-        padding: 1rem 0;
+        padding: 0;
         position: sticky;
         top: 0;
         z-index: 1000;
@@ -30,7 +31,7 @@
     }
 
     .logo {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: 700;
         color: #1a365d;
         text-decoration: none;
@@ -39,6 +40,18 @@
         align-items: center;
         gap: 10px;
         z-index: 1001;
+        white-space: nowrap;
+    }
+
+    .logo-img {
+        height: 55px;
+        padding: 2px 5px;
+    }
+
+    .logo-text {
+        color: #1a365d;
+        font-size: 1.6rem;
+        font-weight: 700;
     }
 
     .menu-toggle {
@@ -66,6 +79,8 @@
         margin: 0;
         padding: 0;
         align-items: center;
+        flex-grow: 1;
+        justify-content: flex-end;
     }
 
     .nav-links li a {
@@ -135,7 +150,15 @@
         }
 
         .logo {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
+        }
+
+        .logo-img {
+            height: 45px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
         }
 
         .menu-toggle {
@@ -182,6 +205,7 @@
 
         .nav-links li:last-child {
             border-bottom: none;
+            margin-left: 0;
         }
 
         .nav-links li:last-child a {
@@ -237,7 +261,15 @@
         }
 
         .logo {
-            font-size: 1.2rem;
+            font-size: 1rem;
+        }
+
+        .logo-img {
+            height: 38px;
+        }
+
+        .logo-text {
+            font-size: 1rem;
         }
 
         .menu-toggle {
@@ -267,7 +299,15 @@
         }
 
         .logo {
-            font-size: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .logo-img {
+            height: 32px;
+        }
+
+        .logo-text {
+            font-size: 0.9rem;
         }
 
         .menu-toggle {
@@ -313,7 +353,10 @@
 
 
 <nav class="navbar-container">
-    <a href="/" class="logo"></a>
+    <a href="/" class="logo">
+        <img src="{% static 'media/logo.png' %}" alt="Vasudev Chemo Pharma Logo" class="logo-img">
+        <span class="logo-text">Vasudev Chemo Pharma</span>
+    </a>
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
         <span>☰</span>
     </button>
@@ -322,7 +365,6 @@
         <li><a href="/aboutus">About</a></li>
         <li><a href="/products">Products</a></li>
         <li><a href="/ourservices">Our Services</a></li>
-        <li><a href="/insights">Insights</a></li>
         <li><a href="#contact">Contact</a></li>
         <li>
             <div class="dropdown">

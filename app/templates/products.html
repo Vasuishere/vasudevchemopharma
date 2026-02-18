@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WKSS8JRT');</script>
+    <!-- End Google Tag Manager -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6W2QP965C"></script>
     <script>
@@ -46,62 +53,6 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-        }
-
-        /* Header & Navigation */
-        header {
-            background-color: #3B38A0;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-decoration: none;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 400;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #000000;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
         }
 
         /* Page Header */
@@ -445,34 +396,6 @@
         }
 
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                gap: 0;
-                margin-top: 1rem;
-                background: rgba(26, 54, 93, 0.95);
-                border-radius: 8px;
-                padding: 1rem;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                padding: 1rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .nav-links a:last-child {
-                border-bottom: none;
-            }
-
             .page-header {
                 padding: 80px 0 60px;
             }
@@ -513,10 +436,6 @@
                 padding: 0 20px;
             }
 
-            .logo {
-                font-size: 1.4rem;
-            }
-
             .page-header h1 {
                 font-size: 1.8rem;
             }
@@ -538,10 +457,15 @@
                 align-items: center;
             }
         }
+
     </style>
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WKSS8JRT"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- Header & Navigation -->
     <header>
         {% include 'infotab.html' %}
@@ -564,9 +488,9 @@
             </div>
             <div class="categories-nav">
                 <button class="category-btn active" data-category="all">All Products</button>
-                <button class="category-btn" data-category="industrial">Industrial Chemicals</button>
-                <button class="category-btn" data-category="api"> APIs Intermediates</button>
-                <button class="category-btn" data-category="specialty">Specialty Chemicals</button>
+                {% for cat in categories %}
+                <button class="category-btn" data-category="{{ cat.slug }}">{{ cat.label }}</button>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -576,339 +500,31 @@
         <div class="container">
             <h2 class="section-title">Our Product Portfolio</h2>
             <div class="products-grid" id="productsGrid">
-                
-                <!-- Industrial Chemicals -->
-                <div class="product-card" data-category="industrial">
+                {% for product in products %}
+                <div class="product-card" data-category="{{ product.category.slug }}">
                     <div class="product-image">
                         <div class="product-bg"></div>
-                        <div class="product-icon">H2S</div>
+                        <div class="product-icon">{{ product.icon }}</div>
                     </div>
                     <div class="product-content">
-                        <div class="product-category">Industrial Chemical</div>
-                        <h3>MEA Triazine 78% H2S Scavenger</h3>
-                        <p class="product-description">High-purity chemical for oil & gas industry applications, effectively removing hydrogen sulfide from industrial processes.</p>
+                        <div class="product-category">{{ product.category.label }}</div>
+                        <h3>{{ product.name }}</h3>
+                        <p class="product-description">{{ product.description }}</p>
                         <div class="product-specs">
+                            {% for spec in product.specs.all %}
                             <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">78%</span>
+                                <span class="spec-label">{{ spec.label }}:</span>
+                                <span class="spec-value">{{ spec.value }}</span>
                             </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Packaging:</span>
-                                <span class="spec-value">200L Drums</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Application:</span>
-                                <span class="spec-value">Oil & Gas</span>
-                            </div>
+                            {% endfor %}
                         </div>
                         <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
+                            <a href="/#contact" class="btn-primary" style="text-decoration:none;text-align:center;">Request Quote</a>
+                            <a href="{% url 'product_detail' slug=product.slug %}" class="btn-secondary" style="text-decoration:none;text-align:center;">View Details</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="product-card" data-category="industrial">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">PTSA</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Industrial Chemical</div>
-                        <h3>P-toluenesulfonic Acid</h3>
-                        <p class="product-description">High-grade acid used in various industrial applications including catalysis and chemical synthesis.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">98%</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Packaging:</span>
-                                <span class="spec-value">PP Bag</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Industrial</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="industrial">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">CuS</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Industrial Chemical</div>
-                        <h3>Copper Sulphate</h3>
-                        <p class="product-description">Industrial grade copper sulphate for various applications including agriculture, water treatment, and chemical processes.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Industrial</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Form:</span>
-                                <span class="spec-value">Crystals</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Application:</span>
-                                <span class="spec-value">Multi-purpose</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="industrial">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">MnS</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Industrial Chemical</div>
-                        <h3>Manganese Sulphate</h3>
-                        <p class="product-description">High-quality manganese sulphate for fertilizer production, animal feed supplements, and industrial applications.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Industrial/Feed</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Form:</span>
-                                <span class="spec-value">Powder/Granules</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">99%</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pharmaceutical APIs -->
-                <div class="product-card" data-category="api">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">ALB</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Pharmaceutical API</div>
-                        <h3>Albendazol</h3>
-                        <p class="product-description">Anti-parasitic pharmaceutical active ingredient for treating various worm infections with high efficacy.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Pharmaceutical</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">USP/BP</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Category:</span>
-                                <span class="spec-value">Anthelmintic</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="api">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">KTC</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Pharmaceutical API</div>
-                        <h3>Ketoconazole</h3>
-                        <p class="product-description">Antifungal API for treating various fungal infections, available in multiple pharmaceutical grades.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">CAS Number:</span>
-                                <span class="spec-value">65277-42-1</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">IP/BP/USP</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Category:</span>
-                                <span class="spec-value">Antifungal</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="api">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">PGB</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Pharmaceutical API</div>
-                        <h3>Pregabalin</h3>
-                        <p class="product-description">Anti-convulsant medication API used for treating epilepsy, neuropathic pain, and anxiety disorders.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Pharmaceutical</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">USP</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Category:</span>
-                                <span class="spec-value">Anticonvulsant</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Specialty Chemicals -->
-                <div class="product-card" data-category="specialty">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">BCE</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Specialty Chemical</div>
-                        <h3>Bis(2-chloroethyl)amine Hydrochloride</h3>
-                        <p class="product-description">High-purity specialty chemical intermediate used in pharmaceutical synthesis and research applications.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Research/Pharma</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">98%+</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Application:</span>
-                                <span class="spec-value">Synthesis</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="specialty">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">DEA</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Specialty Chemical</div>
-                        <h3>Di Ethyl Amino Ethyl Chloride Hydrochloride</h3>
-                        <p class="product-description">Specialized chemical intermediate for pharmaceutical and fine chemical synthesis with high purity standards.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Pharmaceutical</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">99%+</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Form:</span>
-                                <span class="spec-value">Hydrochloride Salt</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="specialty">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">AMT</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Specialty Chemical</div>
-                        <h3>2-Amino-5-methylthiazole</h3>
-                        <p class="product-description">Pharmaceutical intermediate used in the synthesis of various therapeutic compounds and research chemicals.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">Pharmaceutical</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">98%</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Application:</span>
-                                <span class="spec-value">Intermediate</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="specialty">
-                    <div class="product-image">
-                        <div class="product-bg"></div>
-                        <div class="product-icon">CEH</div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">Specialty Chemical</div>
-                        <h3>2-Chloroethylamine Hydrochloride</h3>
-                        <p class="product-description">API intermediate used in pharmaceutical manufacturing and specialty chemical synthesis processes.</p>
-                        <div class="product-specs">
-                            <div class="spec-item">
-                                <span class="spec-label">Grade:</span>
-                                <span class="spec-value">API Intermediate</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Purity:</span>
-                                <span class="spec-value">99%</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">Form:</span>
-                                <span class="spec-value">Crystalline</span>
-                            </div>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-primary">Request Quote</button>
-                            <button class="btn-secondary">View Details</button>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -918,34 +534,15 @@
         <div class="container">
             <h2 class="section-title">Product Categories</h2>
             <div class="category-grid">
+                {% for cat in category_overview %}
                 <div class="category-card">
                     <div class="category-icon">
-                        <i class="bi bi-gear-fill"></i>
+                        <i class="{{ cat.icon_class }}"></i>
                     </div>
-                    <h4>Industrial Chemicals</h4>
-                    <p>High-quality industrial chemicals for oil & gas, manufacturing, and processing industries</p>
+                    <h4>{{ cat.overview_title }}</h4>
+                    <p>{{ cat.overview_description }}</p>
                 </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="bi bi-capsule"></i>
-                    </div>
-                    <h4>Pharmaceutical APIs</h4>
-                    <p>Active pharmaceutical ingredients meeting international quality standards for drug manufacturing</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="bi bi-flask"></i>
-                    </div>
-                    <h4>Specialty Chemicals</h4>
-                    <p>Specialized chemical intermediates and compounds for pharmaceutical and research applications</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="bi bi-heart"></i>
-                    </div>
-                    <h4>Personal Care</h4>
-                    <p>Natural and cosmetic grade products for personal care and skincare applications</p>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -1000,23 +597,6 @@
             });
         });
 
-        // Product Action Buttons
-        document.querySelectorAll('.btn-primary').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const productCard = this.closest('.product-card');
-                const productName = productCard.querySelector('h3').textContent;
-                alert(`Quote request for ${productName} has been submitted. Our team will contact you shortly.`);
-            });
-        });
-
-        document.querySelectorAll('.btn-secondary').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const productCard = this.closest('.product-card');
-                const productName = productCard.querySelector('h3').textContent;
-                alert(`For detailed specifications of ${productName}, please contact our technical team.`);
-            });
-        });
-
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1027,7 +607,6 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
-                    navLinks.classList.remove('active');
                 }
             });
         });

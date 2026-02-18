@@ -22,6 +22,7 @@ urlpatterns = [
     path('aboutus', views.about, name='aboutus'),
     path('ourservices', views.ourservices, name='ourservices'),
     path('products', views.products, name='products'),
-    path('insights', views.insights, name='insights'),
+    path('products/<slug:slug>/', views.product_detail, name='product_detail'),
+    path('insights/<slug:slug>/', views.insight_detail, name='insight_detail'),
 ]
 

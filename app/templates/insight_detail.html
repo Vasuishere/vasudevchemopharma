@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WKSS8JRT');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W6W2QP965C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W6W2QP965C');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.meta_title }}</title>
+    <meta name="description" content="{{ article.meta_description }}">
+    <meta name="keywords" content="{{ article.meta_keywords }}">
+    <link rel="canonical" href="https://vasudevchemopharma.com/insights/{{ article.slug }}/">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Libre Baskerville', serif;
+            line-height: 1.6;
+            color: #000000;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: #f9f9f9;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2d5016 100%);
+            color: white;
+            padding: 5rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        .page-header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.15rem;
+            opacity: 0.92;
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Breadcrumb under header */
+        .breadcrumb-bar {
+            background: #edf2f7;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .breadcrumb-bar .container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        .breadcrumb-bar a {
+            color: #1a365d;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb-bar a:hover {
+            color: #e85a4f;
+        }
+
+        /* Article Content */
+        .article-section {
+            padding: 3rem 0 4rem;
+        }
+
+        .article-content {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid #1a365d;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .article-content .article-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a365d, #2d5016);
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #1a365d;
+            margin-bottom: 1.5rem;
+            line-height: 1.35;
+        }
+
+        .article-content p {
+            font-size: 1.05rem;
+            color: #2d3748;
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+        }
+
+        .article-content .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .article-content .article-tag {
+            background: #edf2f7;
+            color: #1a365d;
+            font-size: 0.85rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+
+        /* Global Keywords Banner */
+        .global-keywords-banner {
+            background: linear-gradient(90deg, #1a365d, #234e8e);
+            color: #fff;
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+
+        .global-keywords-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .global-keywords-banner .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .global-keywords-banner .keyword-tag {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .global-keywords-banner .keyword-tag:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1a365d, #2d5016);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #e85a4f;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s, transform 0.15s;
+        }
+
+        .cta-btn:hover {
+            background: #d44a3f;
+            transform: scale(1.04);
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .article-content {
+                padding: 2rem 1.2rem;
+            }
+
+            .article-content h2 {
+                font-size: 1.4rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.6rem;
+            }
+
+            .global-keywords-banner h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WKSS8JRT"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header & Navigation -->
+    <header>
+        {% include 'infotab.html' %}
+        {% include 'navbar.html' %}
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>{{ article.title }}</h1>
+            <p>Expert insight on MEA Triazine 78 (Vastreat 78) from Vasudev Chemo Pharma – trusted manufacturer in Gujarat, India, exporting globally.</p>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="container">
+            <a href="/">Home</a> <span>/</span> <strong>Insight #{{ article.number }}</strong>
+        </div>
+    </div>
+
+    <!-- Global Market Keywords Banner -->
+    <section class="global-keywords-banner">
+        <div class="container">
+            <h2>Trusted MEA Triazine 78 Supplier – Serving the World</h2>
+            <div class="keyword-tags">
+                <span class="keyword-tag">MEA Triazine Manufacturer in Gujarat</span>
+                <span class="keyword-tag">MEA Triazine Manufacturer in India</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Vietnam</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Kuwait</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Dubai</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Egypt</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Brazil</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Saudi Arabia</span>
+                <span class="keyword-tag">MEA Triazine Supplier in UAE</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Oman</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Qatar</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Bahrain</span>
+                <span class="keyword-tag">MEA Triazine Supplier in Iraq</span>
+                <span class="keyword-tag">H₂S Scavenger Exporter India</span>
+                <span class="keyword-tag">Vastreat 78 Global Supply</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article -->
+    <section class="article-section">
+        <div class="container">
+            <div class="article-content">
+                <span class="article-number">{{ article.number }}</span>
+                <h2>{{ article.title }}</h2>
+                {% for paragraph in article.paragraphs %}
+                    <p>{{ paragraph|safe }}</p>
+                {% endfor %}
+                <div class="article-tags">
+                    {% for tag in article.tags %}
+                        <span class="article-tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>Ready to Source Premium MEA Triazine 78?</h2>
+            <p>Whether you need MEA Triazine for oil &amp; gas, lubricants, paint, wastewater, or fuel additives – Vasudev Chemo Pharma delivers Vastreat 78 globally with unmatched quality and reliability.</p>
+            <a href="/#contact" class="cta-btn">Request a Quote</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "{{ article.title|escapejs }}",
+        "description": "{{ article.meta_description|escapejs }}",
+        "author": {
+            "@type": "Organization",
+            "name": "Vasudev Chemo Pharma",
+            "url": "https://vasudevchemopharma.com"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Vasudev Chemo Pharma"
+        },
+        "keywords": "{{ article.meta_keywords|escapejs }}"
+    }
+    </script>
+</body>
+</html>
