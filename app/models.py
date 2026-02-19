@@ -192,6 +192,38 @@ class Product(models.Model):
         verbose_name="Batch Traceability Info",
     )
 
+    # ── 9. SEO ────────────────────────────────────────────────────────
+    seo_title = models.CharField(
+        max_length=300, blank=True, default="",
+        verbose_name="SEO Page Title",
+        help_text="Custom page <title> for search engines. Leave blank to use product name.",
+    )
+    meta_keywords = models.TextField(
+        blank=True, default="",
+        verbose_name="Meta Keywords / Tags",
+        help_text="Comma-separated keywords for meta tags and SEO.",
+    )
+    meta_description_seo = models.TextField(
+        blank=True, default="",
+        verbose_name="SEO Meta Description",
+        help_text="Custom meta description for search engines. Leave blank to use short description.",
+    )
+    seo_h1 = models.CharField(
+        max_length=300, blank=True, default="",
+        verbose_name="SEO H1 Heading",
+        help_text="Custom H1 heading for the product page. Leave blank to use product name.",
+    )
+    seo_h2_tags = models.TextField(
+        blank=True, default="",
+        verbose_name="SEO H2 Sub-headings",
+        help_text="One per line. Rendered as hidden H2 headings on the page for SEO.",
+    )
+    seo_rich_text = models.TextField(
+        blank=True, default="",
+        verbose_name="SEO Rich Content",
+        help_text="Keyword-rich content block rendered on the product page (below overview) for Google indexing.",
+    )
+
     # ── Ordering ──────────────────────────────────────────────────────
     order = models.PositiveIntegerField(default=0, help_text="Display order")
 
@@ -312,6 +344,16 @@ class Product(models.Model):
             self.dimensions, self.moq, self.lead_time,
             self.shipping_restrictions,
         ]) or self.dangerous_goods is not None
+
+    @property
+    def seo_h2_list(self):
+        """Return SEO H2 sub-headings as a list."""
+        return [s.strip() for s in self.seo_h2_tags.splitlines() if s.strip()] if self.seo_h2_tags else []
+
+    @property
+    def meta_keywords_list(self):
+        """Return meta keywords as a list."""
+        return [s.strip() for s in self.meta_keywords.split(',') if s.strip()] if self.meta_keywords else []
 
 
 # ─────────────────────────────────────────────────────────────────────

@@ -1,14 +1,79 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ product.name }} - Vasudev Chemo Pharma{% endblock %}
-{% block meta_description %}{{ product.description }}{% endblock %}
+{% block title %}{% if product.seo_title %}{{ product.seo_title }}{% else %}{{ product.name }} - Vasudev Chemo Pharma{% endif %}{% endblock %}
+{% block meta_description %}{% if product.meta_description_seo %}{{ product.meta_description_seo }}{% else %}{{ product.description }}{% endif %}{% endblock %}
 {% block canonical %}https://vasudevchemopharma.com/products/{{ product.slug }}/{% endblock %}
-{% block og_title %}{{ product.name }} – Vasudev Chemo Pharma{% endblock %}
-{% block og_description %}{{ product.description }}{% endblock %}
+{% block og_title %}{% if product.seo_title %}{{ product.seo_title }}{% else %}{{ product.name }} – Vasudev Chemo Pharma{% endif %}{% endblock %}
+{% block og_description %}{% if product.meta_description_seo %}{{ product.meta_description_seo }}{% else %}{{ product.description }}{% endif %}{% endblock %}
 {% block og_url %}https://vasudevchemopharma.com/products/{{ product.slug }}/{% endblock %}
 {% block og_type %}product{% endblock %}
 {% block og_extra %}{% endblock %}
+
+{% block meta_extra %}
+{% if product.meta_keywords %}<meta name="keywords" content="{{ product.meta_keywords }}">{% endif %}
+<!-- Structured Data: Product (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "description": "{% if product.meta_description_seo %}{{ product.meta_description_seo }}{% else %}{{ product.description }}{% endif %}",
+  "url": "https://vasudevchemopharma.com/products/{{ product.slug }}/",
+  "brand": {
+    "@type": "Brand",
+    "name": "Vasudev Chemo Pharma"
+  },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Vasudev Chemo Pharma",
+    "url": "https://vasudevchemopharma.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ankleshwar",
+      "addressRegion": "Gujarat",
+      "addressCountry": "IN"
+    }
+  }{% if product.cas_number %},
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "CAS Number",
+      "value": "{{ product.cas_number }}"
+    }{% if product.molecular_formula %},
+    {
+      "@type": "PropertyValue",
+      "name": "Molecular Formula",
+      "value": "{{ product.molecular_formula }}"
+    }{% endif %}{% if product.molecular_weight %},
+    {
+      "@type": "PropertyValue",
+      "name": "Molecular Weight",
+      "value": "{{ product.molecular_weight }}"
+    }{% endif %}
+  ]{% endif %}
+}
+</script>
+{% if product.faqs.all %}
+<!-- Structured Data: FAQPage (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{% for fq in product.faqs.all %}{% if not forloop.first %},{% endif %}
+    {
+      "@type": "Question",
+      "name": "{{ fq.question|escapejs }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ fq.answer|escapejs }}"
+      }
+    }{% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <!-- Breadcrumb -->
@@ -56,7 +121,13 @@
             <!-- Product Info -->
             <div class="hero-info">
                 <div class="category-badge">{{ product.category.label }}</div>
-                <h1>{{ product.name }}</h1>
+                <h1>{% if product.seo_h1 %}{{ product.seo_h1 }}{% else %}{{ product.name }}{% endif %}</h1>
+
+                {% if product.seo_h2_tags %}
+                {% for h2tag in product.seo_h2_list %}
+                <h2 class="seo-subheading" style="font-size:0.95rem;color:#475569;font-weight:500;margin:0.15rem 0;">{{ h2tag }}</h2>
+                {% endfor %}
+                {% endif %}
 
                 {% if product.brand_name or product.manufacturer %}
                 <p class="brand-line">
@@ -202,6 +273,13 @@
                         </div>
                         {% endif %}
                     </div>
+
+                    <!-- SEO RICH CONTENT (inside overview area for crawlers) -->
+                    {% if product.seo_rich_text %}
+                    <div class="content-card seo-content-block" style="margin-top:1.5rem;">
+                        <div class="long-text">{{ product.seo_rich_text|linebreaksbr }}</div>
+                    </div>
+                    {% endif %}
 
                     <!-- SPECIFICATIONS TAB -->
                     {% if product.has_chemical_identification or product.has_physical_properties or product.specs.all %}

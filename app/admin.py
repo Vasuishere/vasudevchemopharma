@@ -109,6 +109,13 @@ class ProductAdmin(admin.ModelAdmin):
                 "batch_traceability",
             ),
         }),
+        ("SEO / Search Engine Optimization", {
+            "classes": ("collapse",),
+            "fields": (
+                "seo_title", "meta_keywords", "meta_description_seo",
+                "seo_h1", "seo_h2_tags", "seo_rich_text",
+            ),
+        }),
     ]
 
     inlines = [
