@@ -116,6 +116,8 @@ header {
     padding: 0.6rem 0.8rem;
     position: relative;
     z-index: 1000;
+    flex-wrap: nowrap;
+    gap: 1rem;
 }
 
 .logo {
@@ -128,6 +130,9 @@ header {
     gap: 8px;
     z-index: 1001;
     white-space: nowrap;
+    flex-shrink: 0;
+    max-width: 50%;
+    overflow: hidden;
 }
 
 .logo-img {
@@ -312,13 +317,15 @@ header {
         display: flex !important;
         position: static;
         flex-direction: row;
-        gap: 2rem;
+        gap: 1rem;
         width: auto;
         background: transparent;
         box-shadow: none;
         border: none;
         padding: 0;
-        flex-grow: 1;
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-left: auto;
         justify-content: flex-end;
         align-items: center;
         border-top: none;

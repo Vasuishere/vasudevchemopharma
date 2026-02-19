@@ -4,16 +4,9 @@ from django.core.files.storage import default_storage
 register = template.Library()
 
 
-@register.simple_tag
+@register.filter
 def file_exists(name):
-    """Return True if the given storage path exists.
-
-    Usage in template:
-      {% load storage_extras %}
-      {% if company.company_logo and file_exists company.company_logo.name %}
-          <img src="{{ company.company_logo.url }}">...
-      {% endif %}
-    """
+    """Return True if the given storage path exists."""
     try:
         if not name:
             return False
