@@ -14,10 +14,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, re_path
+from django.views.generic.base import RedirectView
 from . import views
 
 urlpatterns = [
+    re_path(r'^blog/mea-triazine-a-hydrogen-sulfide-scavenger-for-natu/?$', RedirectView.as_view(url='/products', permanent=False)),
+    re_path(r'^static/media/VCP-003-TDS\.pdf$', RedirectView.as_view(url='/products', permanent=False)),
+    re_path(r'^product/2-chloroethylamine-hydrochloride/?$', RedirectView.as_view(url='/products', permanent=False)),
+    re_path(r'^product/pregabalin/?$', RedirectView.as_view(url='/products', permanent=False)),
     path('', views.index, name='index'),
     path('aboutus', views.about, name='aboutus'),
     path('ourservices', views.ourservices, name='ourservices'),
