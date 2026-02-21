@@ -55,6 +55,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Keep referrer information available for third-party domain validation (e.g., TinyMCE).
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 ROOT_URLCONF = 'devapp.urls'
 

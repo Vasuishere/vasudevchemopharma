@@ -232,6 +232,6 @@ class ProductArticleAdmin(admin.ModelAdmin):
 
     class Media:
         js = (
-            "https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js",
+            "https://cdn.tiny.cloud/1/iydf5n1ragg3l140v7hbvye8jvho365i6dc31cphj5fcuqba/tinymce/6/tinymce.min.js",
             "admin/js/product_article_editor.js",
         )
