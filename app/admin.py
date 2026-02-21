@@ -1,9 +1,23 @@
 from django.contrib import admin
+from django import forms
 from .models import (
     ProductCategory, Product, ProductSpec,
     ProductImage, ProductDocument, ProductFAQ, ProductPricingTier,
-    CompanyDetails,
+    CompanyDetails, ProductArticle,
 )
+
+
+class ProductArticleAdminForm(forms.ModelForm):
+    class Meta:
+        model = ProductArticle
+        fields = "__all__"
+        widgets = {
+            "short_summary": forms.Textarea(attrs={"rows": 4, "class": "richtext-editor"}),
+            "content": forms.Textarea(attrs={"rows": 16, "class": "richtext-editor"}),
+            "meta_description": forms.Textarea(attrs={"rows": 4, "class": "richtext-editor"}),
+            "contact_section_text": forms.Textarea(attrs={"rows": 4, "class": "richtext-editor"}),
+            "promote_section_text": forms.Textarea(attrs={"rows": 4, "class": "richtext-editor"}),
+        }
 
 
 # ── Inlines ───────────────────────────────────────────────────────────
@@ -180,3 +194,44 @@ class CompanyDetailsAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(ProductArticle)
+class ProductArticleAdmin(admin.ModelAdmin):
+    form = ProductArticleAdminForm
+    list_display = ("title", "is_published", "published_on", "order")
+    list_filter = ("is_published", "published_on")
+    list_editable = ("is_published", "order")
+    search_fields = ("title", "short_summary", "meta_keywords")
+    prepopulated_fields = {"slug": ("title",)}
+    filter_horizontal = ("promoted_products",)
+
+    fieldsets = [
+        ("Article Basics", {
+            "fields": (
+                "title", "slug", "short_summary", "cover_image", "content", "key_highlights",
+                ("is_published", "published_on", "order"),
+            )
+        }),
+        ("SEO", {
+            "classes": ("collapse",),
+            "fields": ("meta_title", "meta_description", "meta_keywords"),
+        }),
+        ("Contact Section", {
+            "classes": ("collapse",),
+            "fields": (
+                "contact_section_title", "contact_section_text", "contact_person",
+                "contact_phone", "contact_email", "contact_cta_text", "contact_cta_url",
+            ),
+        }),
+        ("Promote Other Products", {
+            "classes": ("collapse",),
+            "fields": ("promote_section_title", "promote_section_text", "promoted_products"),
+        }),
+    ]
+
+    class Media:
+        js = (
+            "https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js",
+            "admin/js/product_article_editor.js",
+        )

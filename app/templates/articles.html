@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Articles | Vasudev Chemo Pharma{% endblock %}
+{% block meta_description %}Read technical and practical product articles from Vasudev Chemo Pharma. Explore applications, guidance, and product-focused updates.{% endblock %}
+{% block canonical %}https://vasudevchemopharma.com/articles{% endblock %}
+{% block og_title %}Product Articles | Vasudev Chemo Pharma{% endblock %}
+{% block og_description %}Technical and practical product articles from Vasudev Chemo Pharma.{% endblock %}
+{% block og_url %}https://vasudevchemopharma.com/articles{% endblock %}
+
+{% block content %}
+<section class="page-header page-header--insight">
+    <div class="container">
+        <h1>Product Articles</h1>
+        <p>Explore useful articles, practical guidance, and product updates from our team.</p>
+    </div>
+</section>
+
+<section class="article-list-section">
+    <div class="container">
+        {% if articles %}
+            <div class="article-list-grid">
+                {% for article in articles %}
+                    <article class="article-card">
+                        {% if article.cover_image %}
+                            <a href="/articles/{{ article.slug }}/" class="article-card-image-wrap">
+                                <img src="{{ article.cover_image.url }}" alt="{{ article.title }}" class="article-card-image" loading="lazy">
+                            </a>
+                        {% endif %}
+                        <div class="article-card-content">
+                            {% if article.published_on %}
+                                <p class="article-date">Published: {{ article.published_on }}</p>
+                            {% endif %}
+                            <h2><a href="/articles/{{ article.slug }}/">{{ article.title }}</a></h2>
+                            {% if article.short_summary %}
+                                <p>{{ article.short_summary }}</p>
+                            {% endif %}
+                            <a class="cta-button" href="/articles/{{ article.slug }}/">Read Article</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="article-empty-state">
+                <h3>Articles are coming soon</h3>
+                <p>We are preparing useful product articles. Please check again shortly.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

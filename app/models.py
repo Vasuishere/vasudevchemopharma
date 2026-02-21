@@ -602,3 +602,86 @@ class CompanyDetails(models.Model):
         """Return the singleton instance, creating it if needed."""
         obj, _ = cls.objects.get_or_create(pk=1)
         return obj
+
+
+class ProductArticle(models.Model):
+    """SEO-ready article model with contact and product-promotion sections."""
+
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=280, unique=True)
+    short_summary = models.TextField(
+        blank=True,
+        default="",
+        help_text="Short intro shown in article cards and below the title.",
+    )
+    cover_image = models.ImageField(upload_to="articles/", blank=True, null=True)
+    content = models.TextField(
+        help_text="Main article body. Use blank lines to split paragraphs.",
+    )
+    key_highlights = models.TextField(
+        blank=True,
+        default="",
+        help_text="One highlight per line (shown as key points).",
+    )
+
+    is_published = models.BooleanField(default=False)
+    published_on = models.DateField(blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+
+    meta_title = models.CharField(max_length=300, blank=True, default="")
+    meta_description = models.TextField(blank=True, default="")
+    meta_keywords = models.TextField(
+        blank=True,
+        default="",
+        help_text="Comma-separated keywords.",
+    )
+
+    contact_section_title = models.CharField(max_length=180, blank=True, default="Need Product Support?")
+    contact_section_text = models.TextField(blank=True, default="")
+    contact_person = models.CharField(max_length=150, blank=True, default="")
+    contact_phone = models.CharField(max_length=40, blank=True, default="")
+    contact_email = models.EmailField(blank=True, default="")
+    contact_cta_text = models.CharField(max_length=80, blank=True, default="Contact Us")
+    contact_cta_url = models.CharField(max_length=300, blank=True, default="/products")
+
+    promote_section_title = models.CharField(max_length=180, blank=True, default="Explore Our Other Products")
+    promote_section_text = models.TextField(blank=True, default="")
+    promoted_products = models.ManyToManyField(Product, blank=True, related_name="article_promotions")
+
+    class Meta:
+        ordering = ["-published_on", "order", "-id"]
+        verbose_name = "Product Article"
+        verbose_name_plural = "Product Articles"
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            from django.utils.text import slugify
+            import uuid
+
+            base = slugify(self.title) or uuid.uuid4().hex[:8]
+            candidate = base
+            suffix = 1
+            while self.__class__.objects.filter(slug=candidate).exclude(pk=self.pk).exists():
+                candidate = f"{base}-{suffix}"
+                suffix += 1
+            self.slug = candidate
+        super().save(*args, **kwargs)
+
+    @property
+    def content_paragraphs(self):
+        return [p.strip() for p in self.content.splitlines() if p.strip()]
+
+    @property
+    def highlights_list(self):
+        return [p.strip() for p in self.key_highlights.splitlines() if p.strip()]
+
+    @property
+    def meta_keywords_list(self):
+        return [k.strip() for k in self.meta_keywords.split(',') if k.strip()]
+
+    @property
+    def seo_title(self):
+        return self.meta_title or self.title

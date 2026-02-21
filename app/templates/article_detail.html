@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.seo_title }}{% endblock %}
+{% block meta_description %}{{ article.meta_description|default:article.short_summary }}{% endblock %}
+{% block meta_extra %}
+{% if article.meta_keywords %}
+<meta name="keywords" content="{{ article.meta_keywords }}">
+{% endif %}
+{% endblock %}
+{% block canonical %}https://vasudevchemopharma.com/articles/{{ article.slug }}/{% endblock %}
+{% block og_title %}{{ article.seo_title }}{% endblock %}
+{% block og_description %}{{ article.meta_description|default:article.short_summary }}{% endblock %}
+{% block og_url %}https://vasudevchemopharma.com/articles/{{ article.slug }}/{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block content %}
+<section class="page-header page-header--insight">
+    <div class="container">
+        <h1>{{ article.title }}</h1>
+        {% if article.short_summary %}
+            <p>{{ article.short_summary }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<div class="breadcrumb-bar">
+    <div class="container">
+        <a href="/">Home</a> <span class="sep">/</span>
+        <a href="/articles">Articles</a> <span class="sep">/</span>
+        <strong>{{ article.title }}</strong>
+    </div>
+</div>
+
+<section class="article-layout-section">
+    <div class="container article-layout-grid">
+        <article class="article-main-card">
+            {% if article.cover_image %}
+                <img src="{{ article.cover_image.url }}" alt="{{ article.title }}" class="article-cover-image" loading="lazy">
+            {% endif %}
+
+            {% if article.published_on %}
+                <p class="article-date">Published: {{ article.published_on }}</p>
+            {% endif %}
+
+            {% if article.highlights_list %}
+                <div class="article-highlight-box">
+                    <h3>Key Highlights</h3>
+                    <ul>
+                        {% for item in article.highlights_list %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="article-body-content">
+                {% if article.content %}
+                    {{ article.content|safe }}
+                {% else %}
+                    <p>Article content will be updated soon.</p>
+                {% endif %}
+            </div>
+        </article>
+
+        <aside class="article-side-panel">
+            <div class="article-side-card">
+                <h3>{{ article.contact_section_title|default:'Need Product Support?' }}</h3>
+                {% if article.contact_section_text %}
+                    <p>{{ article.contact_section_text }}</p>
+                {% endif %}
+
+                {% if article.contact_person %}
+                    <p><strong>Contact:</strong> {{ article.contact_person }}</p>
+                {% endif %}
+
+                {% if article.contact_phone %}
+                    <p><strong>Phone:</strong> <a href="tel:{{ article.contact_phone }}">{{ article.contact_phone }}</a></p>
+                {% elif company.phone_primary %}
+                    <p><strong>Phone:</strong> <a href="tel:{{ company.phone_primary }}">{{ company.phone_primary }}</a></p>
+                {% endif %}
+
+                {% if article.contact_email %}
+                    <p><strong>Email:</strong> <a href="mailto:{{ article.contact_email }}">{{ article.contact_email }}</a></p>
+                {% elif company.email_sales %}
+                    <p><strong>Email:</strong> <a href="mailto:{{ company.email_sales }}">{{ company.email_sales }}</a></p>
+                {% endif %}
+
+                <a class="cta-button" href="{{ article.contact_cta_url|default:'/products' }}">{{ article.contact_cta_text|default:'Contact Us' }}</a>
+            </div>
+
+            {% if promoted_products %}
+                <div class="article-side-card">
+                    <h3>{{ article.promote_section_title|default:'Explore Our Other Products' }}</h3>
+                    {% if article.promote_section_text %}
+                        <p>{{ article.promote_section_text }}</p>
+                    {% endif %}
+                    <ul class="promoted-product-list">
+                        {% for product in promoted_products %}
+                            <li>
+                                <a href="/products/{{ product.slug }}/">{{ product.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <a class="cta-button cta-button--light" href="/products">View All Products</a>
+                </div>
+            {% endif %}
+        </aside>
+    </div>
+</section>
+
+{% if related_articles %}
+<section class="related-articles-section">
+    <div class="container">
+        <h2 class="section-title">More Articles</h2>
+        <div class="article-list-grid">
+            {% for item in related_articles %}
+                <article class="article-card">
+                    <div class="article-card-content">
+                        <h3><a href="/articles/{{ item.slug }}/">{{ item.title }}</a></h3>
+                        {% if item.short_summary %}
+                            <p>{{ item.short_summary }}</p>
+                        {% endif %}
+                        <a class="cta-button" href="/articles/{{ item.slug }}/">Read Article</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

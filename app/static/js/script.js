@@ -145,4 +145,43 @@ document.addEventListener('DOMContentLoaded', function () {
             el.textContent = text.replace(/\b20\d{2}\b/, currentYear);
         }
     });
+
+     /* ─── Header scroll behavior (as requested) ───
+         Scroll down => hide navbar
+         Scroll up   => show navbar
+     */
+    var pageHeader = document.querySelector('header');
+    if (pageHeader) {
+        var lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var ticking = false;
+        var minDelta = 8;
+
+        function updateHeaderVisibility() {
+            var currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+            var delta = currentScrollTop - lastScrollTop;
+
+            if (Math.abs(delta) < minDelta) {
+                ticking = false;
+                return;
+            }
+
+            if (currentScrollTop <= 10) {
+                pageHeader.classList.remove('header-hidden');
+            } else if (delta > 0) {
+                pageHeader.classList.add('header-hidden');
+            } else {
+                pageHeader.classList.remove('header-hidden');
+            }
+
+            lastScrollTop = currentScrollTop;
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                window.requestAnimationFrame(updateHeaderVisibility);
+                ticking = true;
+            }
+        }, { passive: true });
+    }
 });

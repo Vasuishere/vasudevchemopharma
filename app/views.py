@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from .insights_data import INSIGHTS_BY_SLUG
-from .models import Product, ProductCategory
+from .models import Product, ProductCategory, ProductArticle, CompanyDetails
 
 def index(request):
     return render(request, 'index.html')
@@ -52,3 +52,26 @@ def insight_detail(request, slug):
     if article is None:
         raise Http404("Insight not found")
     return render(request, 'insight_detail.html', {'article': article})
+
+
+def article_list(request):
+    articles = ProductArticle.objects.filter(is_published=True)
+    return render(request, 'articles.html', {'articles': articles})
+
+
+def article_detail(request, slug):
+    article = get_object_or_404(ProductArticle, slug=slug, is_published=True)
+    related_articles = (
+        ProductArticle.objects
+        .filter(is_published=True)
+        .exclude(pk=article.pk)[:3]
+    )
+    promoted_products = article.promoted_products.select_related('category').all()[:8]
+    company = CompanyDetails.load()
+    context = {
+        'article': article,
+        'related_articles': related_articles,
+        'promoted_products': promoted_products,
+        'company': company,
+    }
+    return render(request, 'article_detail.html', context)
