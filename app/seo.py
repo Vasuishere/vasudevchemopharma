@@ -7,7 +7,7 @@ from xml.sax.saxutils import escape
 
 from django.http import HttpResponse
 from django.urls import reverse
-from .models import Product
+from .models import Product, ProductArticle
 from .insights_data import INSIGHTS
 
 DOMAIN = "https://vasudevchemopharma.com"
@@ -15,7 +15,7 @@ DOMAIN = "https://vasudevchemopharma.com"
 
 def robots_txt(request):
     """Serve robots.txt as plain text."""
-    sitemap_url = request.build_absolute_uri(reverse("sitemap_xml"))
+    sitemap_url = f"{DOMAIN}{reverse('sitemap_xml')}"
     lines = [
         "User-agent: *",
         "Allow: /",
@@ -41,6 +41,8 @@ def sitemap_xml(request):
         {"loc": "/aboutus/", "changefreq": "monthly", "priority": "0.8"},
         {"loc": "/ourservices/", "changefreq": "monthly", "priority": "0.8"},
         {"loc": "/products/", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": "/insights/", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "/articles/", "changefreq": "weekly", "priority": "0.7"},
     ]
     for page in static_pages:
         urls.append(
@@ -61,6 +63,18 @@ def sitemap_xml(request):
             f"    <lastmod>{today}</lastmod>\n"
             f"    <changefreq>weekly</changefreq>\n"
             f"    <priority>0.8</priority>\n"
+            f"  </url>"
+        )
+
+    # ── Article detail pages (from database) ────────────────────────
+    for slug in ProductArticle.objects.filter(is_published=True).values_list("slug", flat=True):
+        loc = escape(f"{DOMAIN}/articles/{slug}/")
+        urls.append(
+            f"  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            f"    <changefreq>weekly</changefreq>\n"
+            f"    <priority>0.7</priority>\n"
             f"  </url>"
         )
 

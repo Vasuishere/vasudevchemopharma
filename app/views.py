@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
-from .insights_data import INSIGHTS_BY_SLUG
+from .insights_data import INSIGHTS, INSIGHTS_BY_SLUG
 from .models import Product, ProductCategory, ProductArticle, CompanyDetails
 
 def index(request):
@@ -57,6 +57,11 @@ def insight_detail(request, slug):
 def article_list(request):
     articles = ProductArticle.objects.filter(is_published=True)
     return render(request, 'articles.html', {'articles': articles})
+
+
+def insights_list(request):
+    insights = sorted(INSIGHTS, key=lambda item: item.get('number', 0))
+    return render(request, 'insights.html', {'insights': insights})
 
 
 def article_detail(request, slug):

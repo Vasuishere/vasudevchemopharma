@@ -85,7 +85,7 @@
                     <p><strong>Email:</strong> <a href="mailto:{{ company.email_sales }}">{{ company.email_sales }}</a></p>
                 {% endif %}
 
-                <a class="cta-button" href="{{ article.contact_cta_url|default:'/products' }}">{{ article.contact_cta_text|default:'Contact Us' }}</a>
+                <a class="cta-button" href="{{ article.contact_cta_url|default:'/products/' }}">{{ article.contact_cta_text|default:'Contact Us' }}</a>
             </div>
 
             {% if promoted_products %}
@@ -101,7 +101,7 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <a class="cta-button cta-button--light" href="/products">View All Products</a>
+                    <a class="cta-button cta-button--light" href="/products/">View All Products</a>
                 </div>
             {% endif %}
         </aside>

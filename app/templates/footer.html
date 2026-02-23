@@ -10,18 +10,18 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="/">Home</a>
-                <a href="/aboutus">About Us</a>
-                <a href="/products">Products</a>
-                <a href="/insights">Insights</a>
+                <a href="{% url 'aboutus' %}">About Us</a>
+                <a href="{% url 'products' %}">Products</a>
+                <a href="{% url 'insights_list' %}">Insights</a>
                 <a href="/#contact">Contact</a>
             </div>
 
             <div class="footer-section">
                 <h3>Products</h3>
-                <a href="/products">Industrial Acids</a>
-                <a href="/products">Alkalis &amp; Bases</a>
-                <a href="/products">Specialty Chemicals</a>
-                <a href="/products">Custom Solutions</a>
+                <a href="{% url 'products' %}?category=industrial">Industrial Chemicals</a>
+                <a href="{% url 'products' %}?category=api">Pharma API Intermediates</a>
+                <a href="{% url 'products' %}?category=specialty">Specialty Chemicals</a>
+                <a href="{% url 'products' %}?category=personal-care">Personal Care</a>
             </div>
 
             <div class="footer-section">

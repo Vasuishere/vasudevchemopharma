@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Insights | Vasudev Chemo Pharma{% endblock %}
+{% block meta_description %}Explore Vasudev Chemo Pharma insights on MEA Triazine, H₂S scavenging, product quality, and industrial applications.{% endblock %}
+{% block canonical %}https://vasudevchemopharma.com/insights/{% endblock %}
+{% block og_title %}Insights | Vasudev Chemo Pharma{% endblock %}
+{% block og_description %}Technical insights on MEA Triazine and H₂S scavenger applications from Vasudev Chemo Pharma.{% endblock %}
+{% block og_url %}https://vasudevchemopharma.com/insights/{% endblock %}
+
+{% block content %}
+<section class="page-header page-header--insight">
+    <div class="container">
+        <h1>Insights</h1>
+        <p>Expert articles on MEA Triazine quality, H₂S control, and industrial chemical applications.</p>
+    </div>
+</section>
+
+<section class="article-list-section">
+    <div class="container">
+        <div class="article-list-grid">
+            {% for article in insights %}
+                <article class="article-card">
+                    <div class="article-card-content">
+                        <p class="article-date">Insight #{{ article.number }}</p>
+                        <h2><a href="{% url 'insight_detail' slug=article.slug %}">{{ article.title }}</a></h2>
+                        <p>{{ article.meta_description }}</p>
+                        <a class="cta-button" href="{% url 'insight_detail' slug=article.slug %}">Read Insight</a>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="article-empty-state">
+                    <h3>Insights are coming soon</h3>
+                    <p>We are preparing expert articles on MEA Triazine and industrial chemical applications. Please check again shortly.</p>
+                    <a class="cta-button" href="{% url 'products' %}">Browse Our Products</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
